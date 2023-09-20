@@ -1,0 +1,120 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Shop kiến thức - Kiến thức là sức mạnh</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/images/Logo.ico'%}" >
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'app/css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'app/images/fontawesome/css/all.min.css' %}">
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img src="{% static 'app/images/Logo.ico'%}" height='80px' width='80px'></img></a>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Front End
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">HTML</a>
+                    <a class="dropdown-item" href="#">CSS</a>
+                    <a class="dropdown-item" href="#">JavaScript</a>
+                </li>
+
+                <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Back End
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Python</a>
+                    <a class="dropdown-item" href="#">Django</a>
+                </li>
+
+                <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Trí tuệ nhân tạo
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Machine Learning</a>
+                    <a class="dropdown-item" href="#">Computer vision</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Data science</a>
+                  </div>
+                </li>
+
+                <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Kỹ năng sống
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Kỹ năng giao tiếp</a>
+                    <a class="dropdown-item" href="#">Thể dục thể thao</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Bữa ăn khỏe mạnh</a>
+                  </div>
+                </li>
+
+              </ul>
+              <div class="base-div">
+                <button class="base-btn btn-login" type="button">
+                  <i class="fa-solid fa-user-large"></i>Đăng nhập
+                </button>
+              </div>
+              <div class="base-div">
+                <button class="base-btn btn-sign-up" type="button">
+                  <i class="fa-regular fa-square-check"></i>Đăng ký
+                </button>
+              </div>
+            </div>
+          </nav>
+
+
+          <footer>
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <img class="footer-img" src="{% static 'app/images/Logo1.png' %}"></img>
+                </div>
+                <div class="col">
+                  <ul class="footer-ul">
+                    <li>
+                      <a href="#"><i class="fa-solid fa-caret-right"></i>  Giới thiệu</a>
+                    </li>
+                    <li>
+                      <a href="#"><i class="fa-solid fa-caret-right"></i>  Hình thức thanh toán</a>
+                    </li>
+                    <li>
+                      <a href="#"><i class="fa-solid fa-caret-right"></i>  CS đổi và trả</a>
+                    </li>
+                    <li>
+                      <a href="#"><i class="fa-solid fa-caret-right"></i>  CS cam kết đầu ra</a>
+                    </li>
+                  </u>               
+                </div>
+                <div class="col">
+                  <ul class="footer-ul">
+                    <li>
+                      <p><i class="fa-solid fa-location-dot"></i>  Trụ sở: Đại học Xây Dựng Hà Nội - HUCE</p>
+                    </li>
+                    <li class="footer-map">
+                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.7334696247017!2d105.84074577438638!3d21.003318488653534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac773026b415%3A0x499b8b613889f78a!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBYw6J5IEThu7FuZyBIw6AgTuG7mWkgLSBIVUNF!5e0!3m2!1svi!2s!4v1695182603889!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </li>
+                  </u>  
+                </div>
+              </div>
+            </div>
+          </footer>
+        <script src="" async defer></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
