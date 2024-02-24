@@ -1,0 +1,17 @@
+@import 'normalize.css';
+
+:root {
+    --primary: #99ffff;
+    --color-red: #ff3333;
+    --color-yellow: #ffff66;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.42857143;
+    text-rendering: optimizeSpeed;
+}
