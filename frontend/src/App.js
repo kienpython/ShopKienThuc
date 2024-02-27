@@ -1,8 +1,35 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { publicRoutes } from '~/routes';
+import { DefaultLayout } from '~/components/Layout';
+import { Fragment } from 'react';
+
 function App() {
     return (
-        <div className="App" color="--primary">
-            <h1>ReactApp</h1>
-        </div>
+        <Router>
+            <div className="App" color="--primary">
+                <Routes>
+                    {publicRoutes.map((route, index) => {
+                        // eslint-disable-next-line no-lone-blocks
+                        {
+                            /* route.layout === null ? Fragment : DefaultLayout; nếu route có thuộc tính layout bằng null => bỏ header và footer */
+                        }
+                        const Layout = route.layout === null ? Fragment : DefaultLayout;
+                        const Page = route.component;
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
+            </div>
+        </Router>
     );
 }
 
