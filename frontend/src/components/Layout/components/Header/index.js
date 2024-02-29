@@ -14,19 +14,28 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('logo')}>
-                    <img className={cx('img-logo')} src={image.logo} alt="Logo" />
+                    <a href="abc">
+                        <img className={cx('img-logo')} src={image.logo} alt="Logo" />
+                    </a>
                 </div>
                 <div className={cx('nav')}>
                     <nav>
                         <ul className={cx('list-style-menu')}>
                             <li className={cx('list-style-content')}>
                                 <a className={cx('list-style-a')} href="abc">
-                                    BackEnd
-                                    <FontAwesomeIcon icon={faCaretDown} />
+                                    BackEnd <FontAwesomeIcon icon={faCaretDown} />
                                 </a>
                                 <ul className={cx('list-style-subject')}>
-                                    <li>Python</li>
-                                    <li>Javascript</li>
+                                    <li className={cx('list-style-subject-li')}>
+                                        <a className={cx('list-style-subject-a')} href="abc">
+                                            Python
+                                        </a>
+                                    </li>
+                                    <li className={cx('list-style-subject-li')}>
+                                        <a className={cx('list-style-subject-a')} href="abc">
+                                            Javascript
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li className={cx('list-style-content')}>

@@ -57,7 +57,7 @@ nav {
     padding-right: 5px;
 }
 
-.list-style-content:hover .list-style-a {
+.list-style-content:hover > .list-style-a {
     color: var(--primary);
 }
 
@@ -66,6 +66,10 @@ nav {
     border-bottom: solid;
     border-image: linear-gradient(0.3turn, #04b19a, #99ffff);
     border-image-slice: 1;
+}
+
+.list-style-content:hover ul {
+    display: block;
 }
 
 .header-not-login {
@@ -86,21 +90,35 @@ nav {
 }
 
 .list-style-subject {
-    border: solid;
+    border-radius: 10px;
     position: absolute;
     top: 62px;
+    width: 100%;
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
+    display: none;
 }
 
+.list-style-subject-a {
+    line-height: 24px;
+}
+.list-style-subject-li {
+    border-bottom: solid 1px #d3d3d3;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.list-style-subject-li:hover {
+    background: linear-gradient(0.3turn, #04b19a, #99ffff);
+}
+
+.list-style-subject-li:hover > a {
+    color: #ffffff;
+}
+
+.dang-ky:hover,
+.dang-ky:hover .header-not-login-a,
+.dang-nhap:hover,
 .dang-nhap:hover .header-not-login-a {
-    color: var(--primary);
-}
-.dang-nhap:hover {
-    color: var(--primary);
-}
-
-.dang-ky:hover {
-    color: var(--primary);
-}
-.dang-ky:hover .header-not-login-a {
     color: var(--primary);
 }
