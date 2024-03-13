@@ -27,7 +27,6 @@ function Mapbox() {
                 )
                 .then(function (response) {
                     // handle success
-                    console.log(response);
                     newaddressdata.push({
                         ...address,
                         longitude: response.data.features[0].center[0],
