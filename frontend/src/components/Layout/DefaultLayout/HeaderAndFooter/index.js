@@ -1,11 +1,10 @@
 import classNames from 'classnames/bind';
-import style from './DefaultLayout.module.scss';
+import style from './HeaderAndFooter.module.scss';
 import Header from '~/components/Layout/components/Header';
-import Footer from './Footer';
-
+import Footer from '../components/Footer';
 const cx = classNames.bind(style);
 
-function DefaultLayout({ children }) {
+function HeaderAndFooter({ children }) {
     return (
         <div className={cx('wrapper')}>
             <Header />
@@ -17,4 +16,4 @@ function DefaultLayout({ children }) {
     );
 }
 
-export default DefaultLayout;
+export default HeaderAndFooter;

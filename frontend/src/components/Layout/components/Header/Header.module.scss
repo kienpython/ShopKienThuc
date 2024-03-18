@@ -72,6 +72,10 @@ nav {
     display: block;
 }
 
+ul {
+    margin: 0px !important;
+}
+
 .header-not-login {
     flex: 1;
     text-align: right;
@@ -92,7 +96,7 @@ nav {
 .list-style-subject {
     border-radius: 10px;
     position: absolute;
-    top: 62px;
+    top: 64px;
     width: 100%;
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
     display: none;
@@ -106,6 +110,7 @@ nav {
     border-radius: 10px;
     padding: 10px;
     overflow: hidden;
+    background-color: white;
 }
 
 .list-style-subject-li:hover {

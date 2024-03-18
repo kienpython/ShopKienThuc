@@ -47,10 +47,10 @@ function Header() {
                             {course.map((item) => (
                                 <>
                                     <li key={item.nameCourse} className={cx('list-style-content')}>
-                                        <a className={cx('list-style-a')} href="abc">
+                                        <Link className={cx('list-style-a')} to={`/courses/${item.nameCourse}`}>
                                             {item.nameCourse} <FontAwesomeIcon icon={faCaretDown} />
-                                        </a>
-                                        <ul className={cx('list-style-subject')}>
+                                        </Link>
+                                        <ul className={cx('list-style-subject', 'w-100')}>
                                             {subject.map(
                                                 (subject) =>
                                                     subject.idCourse === item.idCourse && (
@@ -58,9 +58,12 @@ function Header() {
                                                             key={subject.nameSubject}
                                                             className={cx('list-style-subject-li')}
                                                         >
-                                                            <a className={cx('list-style-subject-a')} href="abc">
+                                                            <Link
+                                                                className={cx('list-style-subject-a')}
+                                                                to={`/courses/${item.nameCourse.toLowerCase()}`}
+                                                            >
                                                                 {subject.nameSubject}
-                                                            </a>
+                                                            </Link>
                                                         </li>
                                                     ),
                                             )}
