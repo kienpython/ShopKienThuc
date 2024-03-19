@@ -60,7 +60,7 @@ function Header() {
                                                         >
                                                             <Link
                                                                 className={cx('list-style-subject-a')}
-                                                                to={`/courses/${item.nameCourse.toLowerCase()}`}
+                                                                to={`/courses/${item.nameCourse}/${subject.nameSubject}`}
                                                             >
                                                                 {subject.nameSubject}
                                                             </Link>

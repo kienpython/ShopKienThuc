@@ -1,13 +1,13 @@
 import classNames from 'classnames/bind';
-import style from './DefaultLayout.module.scss';
+import style from './VerticalSidebar.module.scss';
 import { useParams } from 'react-router-dom';
 import Header from '~/components/Layout/components/Header';
 import Footer from '~/components/Layout/DefaultLayout/components/Footer';
-import Sidebar from './Sidebar';
+import Sidebar from '../../components/Sidebar';
 
 const cx = classNames.bind(style);
 
-function FullLayout({ children }) {
+function VerticalSidebar({ children }) {
     const { course } = useParams();
     return (
         <div className={cx('wrapper')}>
@@ -30,4 +30,4 @@ function FullLayout({ children }) {
     );
 }
 
-export default FullLayout;
+export default VerticalSidebar;

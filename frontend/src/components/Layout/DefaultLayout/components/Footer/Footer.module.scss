@@ -4,7 +4,6 @@ footer {
     background-color: #eef8e7;
     display: flex;
     justify-content: center;
-    margin-top: 50px;
 }
 
 .wrapper {
@@ -31,7 +30,7 @@ footer {
 }
 
 .footer-content-2 > ul {
-    margin-top: 10%;
+    margin-top: 10% !important;
     line-height: 30px;
 }
 .footer-content-3 > p {

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 // import { DefaultLayout } from '~/components/Layout';
-import { HeaderAndFooter,FullLayout } from '~/components/Layout';
+import { HeaderAndFooter,VerticalSidebar,HorizontalSidebar } from '~/components/Layout';
 // import { Fragment } from 'react';
 
 function App() {
@@ -14,7 +14,8 @@ function App() {
                         {
                             /* route.layout === null ? Fragment : DefaultLayout; nếu route có thuộc tính layout bằng null => bỏ header và footer */
                         }
-                        const Layout = route.layout === "full" ? FullLayout : HeaderAndFooter;
+                        const Layout = route.layout === "VerticalSidebar" ? VerticalSidebar : 
+                        route.layout === "HorizontalSidebar" ? HorizontalSidebar :HeaderAndFooter;
                         const Page = route.component;
                         return (
                             <Route

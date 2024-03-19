@@ -7,5 +7,10 @@ const image = {
     logoCSS: require('~/assets/images/logoCSS.png'),
     logoDA: require('~/assets/images/logoDataAnalyst.png'),
     logoCV: require('~/assets/images/logoComputerVision.png'),
+    cacCauSai: require('~/assets/images/cacCauSai.png'),
+    lamDeThi: require('~/assets/images/lamDeThi.png'),
+    lyThuyet: require('~/assets/images/lyThuyet.png'),
+    thiDau: require('~/assets/images/thiDau.png'),
+    tracNghiem: require('~/assets/images/tracNghiem.png'),
 };
 export default image;

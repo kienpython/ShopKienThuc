@@ -17,3 +17,9 @@
 .span-sidebar {
     color: #333;
 }
+
+.active {
+    background: linear-gradient(0.3turn, #04b19a, #99ffff);
+    color: white;
+    cursor: pointer;
+}
