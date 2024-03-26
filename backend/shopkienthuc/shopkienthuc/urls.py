@@ -22,5 +22,6 @@ urlpatterns = [
     path('api/', include('course.api.urls')),
     path('api/', include('subject.api.urls')),
     path('api/', include('account.api.urls')),
+    path('api/', include('contentSubjectHandle.api.urls')),
 
 ]

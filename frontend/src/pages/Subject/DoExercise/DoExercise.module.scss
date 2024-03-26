@@ -1,0 +1,100 @@
+.container-wrap-lam-bai-tap {
+    background-color: #f6f7f8;
+    display: flex;
+    justify-content: center;
+}
+
+.wrap-button-next-question {
+    background-color: var(--color-green);
+    display: block;
+    border-radius: 6px;
+    padding: 10px 30px;
+    border: 1px solid transparent;
+    color: #fff;
+    width: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.wrap-button-suggest {
+    display: block;
+    border-radius: 6px;
+    padding: 10px 30px;
+    border: 1px solid var(--color-green);
+    width: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-suggest {
+    padding-right: 5px;
+}
+.icon-next-question {
+    padding-left: 5px;
+}
+.icon-next-answered {
+    padding-right: 5px;
+}
+.icon-next-wrong-answered {
+    padding-right: 5px;
+    padding-left: 10px;
+}
+.icon-next-save {
+    padding-right: 5px;
+}
+.icon-next-note {
+    padding-right: 5px;
+    padding-left: 10px;
+}
+.icon-next-error {
+    padding-right: 5px;
+    padding-left: 10px;
+}
+
+.wrap-suggest-and-next-question {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+.wrap-infomation-icon {
+    padding-bottom: 1rem;
+}
+
+span.span-nhan-biet {
+    color: #333;
+    text-transform: none;
+    font-weight: bold;
+}
+span.span-cau-hoi {
+    color: #333;
+    text-transform: none;
+    font-weight: normal;
+}
+.div-nhan-biet {
+    color: white;
+    background: #4bacd5;
+    border-radius: 20px 0 20px 0;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+
+.wrap-point > div > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrap-zone-point {
+    border: 1px solid #e0e0e0;
+}
+
+.content-pointed {
+    background-color: var(--color-green);
+}
+.content-time {
+    background-color: #77909b;
+}
+.content-point-answered {
+    background-color: var(--color-orange);
+}

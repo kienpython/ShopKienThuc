@@ -51,7 +51,7 @@ function ContentCourse() {
                                     'd-flex flex-column align-items-center justify-content-center text-center',
                                     'a-course',
                                 )}
-                                href="abc"
+                                to={`/courses/${course}/${subject}/MenuLyThuyet`}
                             >
                                 <img src={images.lyThuyet} alt="Lý thuyết" />
                                 <span className={cx('text-dark', 'span-course')}>Ôn lý thuyết</span>

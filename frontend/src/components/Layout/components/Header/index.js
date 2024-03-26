@@ -8,29 +8,47 @@ import { faCaretDown, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 
-// bind giúp bind cái object này vào cx
-// Giúp viết được classNames dùng -, vd post-item
 const cx = classNames.bind(style);
+
 function Header() {
-    const [course, setCourse] = useState([]);
-    const [subject, setSubject] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [subjects, setSubjects] = useState([]);
+
+    const firstSubjectOfCourse = ['Python', 'HTML', 'Data Analyst'];
+
+    useEffect(() => {
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = image.logo_removebg;
+        document.head.appendChild(link);
+
+        const existingLink = document.querySelector('link[rel="icon"]');
+        if (existingLink) {
+            document.head.removeChild(existingLink);
+        }
+        document.title = 'Shop kiến thức';
+    }, []);
 
     useEffect(() => {
         axios
             .get('http://127.0.0.1:8000/api/course/')
             .then((res) => {
-                setCourse(res.data);
+                setCourses(res.data);
             })
-            .catch(() => {});
+            .catch((error) => {
+                console.error('Lỗi khi tải các khóa học:', error);
+            });
     }, []);
 
     useEffect(() => {
         axios
             .get('http://127.0.0.1:8000/api/subject/')
             .then((res) => {
-                setSubject(res.data);
+                setSubjects(res.data);
             })
-            .catch(() => {});
+            .catch((error) => {
+                console.error('Lỗi khi tải các môn học:', error);
+            });
     }, []);
 
     return (
@@ -44,32 +62,37 @@ function Header() {
                 <div className={cx('nav')}>
                     <nav>
                         <ul className={cx('list-style-menu')}>
-                            {course.map((item) => (
-                                <>
-                                    <li key={item.nameCourse} className={cx('list-style-content')}>
-                                        <Link className={cx('list-style-a')} to={`/courses/${item.nameCourse}`}>
-                                            {item.nameCourse} <FontAwesomeIcon icon={faCaretDown} />
-                                        </Link>
-                                        <ul className={cx('list-style-subject', 'w-100')}>
-                                            {subject.map(
-                                                (subject) =>
-                                                    subject.idCourse === item.idCourse && (
-                                                        <li
-                                                            key={subject.nameSubject}
-                                                            className={cx('list-style-subject-li')}
+                            {courses.map((course) => (
+                                <li key={course.nameCourse} className={cx('list-style-content')}>
+                                    <Link
+                                        className={cx('list-style-a')}
+                                        to={`/courses/${course.nameCourse}/${
+                                            firstSubjectOfCourse[course.idCourse - 1]
+                                        }`}
+                                    >
+                                        {course.nameCourse} <FontAwesomeIcon icon={faCaretDown} />
+                                    </Link>
+                                    <ul className={cx('list-style-subject', 'w-100')}>
+                                        {subjects.map((subject) => {
+                                            if (subject.idCourse === course.idCourse) {
+                                                return (
+                                                    <li
+                                                        key={subject.nameSubject}
+                                                        className={cx('list-style-subject-li')}
+                                                    >
+                                                        <Link
+                                                            className={cx('list-style-subject-a')}
+                                                            to={`/courses/${course.nameCourse}/${subject.nameSubject}`}
                                                         >
-                                                            <Link
-                                                                className={cx('list-style-subject-a')}
-                                                                to={`/courses/${item.nameCourse}/${subject.nameSubject}`}
-                                                            >
-                                                                {subject.nameSubject}
-                                                            </Link>
-                                                        </li>
-                                                    ),
-                                            )}
-                                        </ul>
-                                    </li>
-                                </>
+                                                            {subject.nameSubject}
+                                                        </Link>
+                                                    </li>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </ul>
+                                </li>
                             ))}
                         </ul>
                     </nav>

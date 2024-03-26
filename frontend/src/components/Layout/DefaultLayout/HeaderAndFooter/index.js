@@ -8,9 +8,7 @@ function HeaderAndFooter({ children }) {
     return (
         <div className={cx('wrapper')}>
             <Header />
-            <div className={cx('container')}>
-                <div className={cx('content')}>{children}</div>
-            </div>
+            <div className={cx('container-wrap-content-haf')}>{children}</div>
             <Footer />
         </div>
     );

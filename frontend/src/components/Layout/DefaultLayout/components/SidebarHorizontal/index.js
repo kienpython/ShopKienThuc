@@ -4,37 +4,40 @@ import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 import style from './SidebarHorizontal.module.scss';
 import images from '~/assets/images';
+
 const cx = classNames.bind(style);
 
 function SidebarHorizontal() {
     const [subjects, setSubjects] = useState([]);
-    const { course } = useParams();
-    var idCourse = 1;
-    var nameCourse = '';
-    switch (course) {
-        case 'BackEnd':
-            idCourse = 1;
-            nameCourse = 'BackEnd';
-            break;
-        case 'FrontEnd':
-            idCourse = 2;
-            nameCourse = 'FrontEnd';
-            break;
-        case 'AI':
-            idCourse = 3;
-            nameCourse = 'AI';
-            break;
-        default:
-            console.log('Default action');
-    }
+    const [course, setCourse] = useState([]);
+    const { subject } = useParams();
+
     useEffect(() => {
         axios
             .get('http://127.0.0.1:8000/api/subject/')
             .then((res) => {
                 setSubjects(res.data);
             })
-            .catch(() => {});
+            .catch((error) => {
+                console.error('Error fetching subjects:', error);
+            });
     }, []);
+
+    useEffect(() => {
+        if (subjects.length > 0) {
+            const foundSubject = subjects.find((item) => item.nameSubject === subject);
+            if (foundSubject) {
+                axios
+                    .get(`http://127.0.0.1:8000/api/course/?idCourse=${foundSubject.idCourse}`)
+                    .then((res) => {
+                        setCourse(res.data);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching courses:', error);
+                    });
+            }
+        }
+    }, [subjects, subject]);
 
     const objSubject = {
         Python: images.logoPython,
@@ -44,24 +47,25 @@ function SidebarHorizontal() {
         'Data Analyst': images.logoDA,
         'Computer Vision': images.logoCV,
     };
+
     return (
-        <div className={cx('d-flex justify-content-center', "container-menu-subject")}>
-            {subjects.map((subject) => (
-                <>
-                    <div className={cx('container-subject')} key={subject.idSubject}>
-                        <NavLink
-                            className={(nav) =>
-                                cx('container-fluid d-flex justify-content-between align-items-center', 'sidebar', {
-                                    active: nav.isActive,
-                                })
-                            }
-                            to={`/courses/${nameCourse}/${subject.nameSubject}`}
-                        >
-                            <img className={cx('logoSubject')} src={objSubject[subject.nameSubject]} alt="logo"></img>
-                            <span className={cx('span-sidebar')}>{subject.nameSubject}</span>
-                        </NavLink>
-                    </div>
-                </>
+        <div className={cx('d-flex justify-content-center', 'container-menu-subject')}>
+            {subjects.map((subjectItem) => (
+                <div className={cx('container-subject')} key={subjectItem.idSubject}>
+                    <NavLink
+                        className={(nav) =>
+                            cx('container-fluid d-flex justify-content-between align-items-center', 'sidebar', {
+                                active: nav.isActive,
+                            })
+                        }
+                        to={`/courses/${course.length > 0 ? course[0].nameCourse : ''}/${
+                            subjectItem.nameSubject
+                        }/TracNghiem`}
+                    >
+                        <img className={cx('logoSubject')} src={objSubject[subjectItem.nameSubject]} alt="logo" />
+                        <span className={cx('span-sidebar')}>{subjectItem.nameSubject}</span>
+                    </NavLink>
+                </div>
             ))}
         </div>
     );

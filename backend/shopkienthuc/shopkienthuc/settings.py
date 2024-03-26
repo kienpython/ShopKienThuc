@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'course',
     'subject',
-    'account'
-
+    'account',
+    'contentSubjectHandle',
 ]
 
 MIDDLEWARE = [
