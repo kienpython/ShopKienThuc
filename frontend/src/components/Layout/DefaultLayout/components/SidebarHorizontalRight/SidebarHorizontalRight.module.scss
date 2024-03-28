@@ -60,9 +60,11 @@
 .wrap-menu-ly-thuyet {
     display: flex;
     flex-direction: column;
+    max-width: 330px;
 }
 .abc {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 330px;
 }

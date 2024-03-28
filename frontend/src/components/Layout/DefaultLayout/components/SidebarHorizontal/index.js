@@ -10,7 +10,8 @@ const cx = classNames.bind(style);
 function SidebarHorizontal() {
     const [subjects, setSubjects] = useState([]);
     const [course, setCourse] = useState([]);
-    const { subject } = useParams();
+
+    const { subject, type } = useParams();
 
     useEffect(() => {
         axios
@@ -60,7 +61,7 @@ function SidebarHorizontal() {
                         }
                         to={`/courses/${course.length > 0 ? course[0].nameCourse : ''}/${
                             subjectItem.nameSubject
-                        }/TracNghiem`}
+                        }/${type}`}
                     >
                         <img className={cx('logoSubject')} src={objSubject[subjectItem.nameSubject]} alt="logo" />
                         <span className={cx('span-sidebar')}>{subjectItem.nameSubject}</span>

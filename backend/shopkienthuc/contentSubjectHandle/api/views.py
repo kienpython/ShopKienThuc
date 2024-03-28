@@ -3,22 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from contentSubjectHandle.models import TitleContent, ContentSubject
 from .serializers import TitleContentSerializer, ContentSubjectSerializer
+from subject.models import Subject
 
-class TitleContentListCreate(generics.ListCreateAPIView):
-    queryset = TitleContent.objects.all()
-    serializer_class = TitleContentSerializer
-
-class TitleContentDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = TitleContent.objects.all()
-    serializer_class = TitleContentSerializer
-
-class ContentSubjectListCreate(generics.ListCreateAPIView):
-    queryset = ContentSubject.objects.all()
-    serializer_class = ContentSubjectSerializer
-
-class ContentSubjectDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = ContentSubject.objects.all()
-    serializer_class = ContentSubjectSerializer
 
 class TitleContentAndContentSubjectList(APIView):
     def get(self, request):
@@ -33,3 +19,37 @@ class TitleContentAndContentSubjectList(APIView):
             'content_subjects': content_subject_serializer.data
         }
         return Response(data)
+    
+class ContentSubjectList(APIView):
+    def get(self, request):
+        name_Subject = request.query_params.get('nameSubject')
+        id_Subject = Subject.objects.filter(nameSubject=name_Subject).values('idSubject').first()
+        if id_Subject:
+            content_subjects = ContentSubject.objects.filter(idSubject=id_Subject['idSubject'])
+            content_subject_serializer = ContentSubjectSerializer(content_subjects, many=True)
+
+            data = {
+                'content_subjects': content_subject_serializer.data
+            }
+            return Response(data)
+        else:
+            return Response(data = {
+                'content_subjects': "NULL"
+            })
+        
+class TitleContentList(APIView):
+    def get(self, request):
+        name_Subject = request.query_params.get('nameSubject')
+        id_Subject = Subject.objects.filter(nameSubject=name_Subject).values('idSubject').first()
+        if id_Subject:
+            title_contents = TitleContent.objects.filter(idSubject=id_Subject['idSubject'])
+            title_content_serializer = TitleContentSerializer(title_contents, many=True)
+
+            data = {
+                 'title_contents': title_content_serializer.data,
+            }
+            return Response(data)
+        else:
+            return Response(data = {
+                'title_contents': "NULL"
+            })

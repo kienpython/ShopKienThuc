@@ -12,6 +12,11 @@ function LyThuyet() {
     const [contentSubjectAndTitleSubjects, setContentSubjectAndTitleSubjects] = useState({});
     const { subject } = useParams();
     const { course } = useParams();
+    const { idCS } = useParams();
+    const { bai } = useParams();
+
+    let string = '';
+    let array_string = [];
     useEffect(() => {
         axios
             .get('http://127.0.0.1:8000/api/contentSubjectAndTitleSubject/')
@@ -20,12 +25,20 @@ function LyThuyet() {
             })
             .catch(() => {});
     }, []);
-    console.log(contentSubjectAndTitleSubjects);
     return (
         <div className={cx('d-flex row container align-center w-100', 'container-wrap-ly-thuyet')}>
             <div className={cx('bg-white mb-4 rounded w-100')}>
-                <span className={cx('title-ly-thuyet', 'text-center')}>Phần 1: Python cơ bản</span>
-                <div class={cx('wrap-link-bai-tap')}>
+                {contentSubjectAndTitleSubjects &&
+                    contentSubjectAndTitleSubjects.content_subjects &&
+                    contentSubjectAndTitleSubjects.content_subjects.map(
+                        (content_subject) =>
+                            content_subject.idContentSubject === parseInt(idCS) && (
+                                <span className={cx('title-ly-thuyet', 'text-center')}>
+                                    Bài {bai}: {content_subject.nameContent}
+                                </span>
+                            ),
+                    )}
+                <div class={cx('wrap-link-bai-tap', 'pb-3')}>
                     <div>
                         <Link className={cx('link-bai-tap')} to={`/courses/${course}/${subject}/BaiTap`}>
                             Bài tập vận dụng
@@ -33,17 +46,15 @@ function LyThuyet() {
                     </div>
                 </div>
                 <div className={cx('d-flex flex-column w-100')}>
-                    <a className={cx('title-ly-thuyet-a')} href="abc" alt="abc">
-                        Bài 1: Giới thiệu
-                    </a>
-                    <a className={cx('title-ly-thuyet-a')} href="abc" alt="abc">
-                        Bài 1: Giới thiệu
-                    </a>
-                    <a className={cx('title-ly-thuyet-a')} href="abc" alt="abc">
-                        Bài 1: Giới thiệu
-                    </a>
+                    {contentSubjectAndTitleSubjects &&
+                        contentSubjectAndTitleSubjects.content_subjects &&
+                        contentSubjectAndTitleSubjects.content_subjects
+                            .filter((content_subject) => content_subject.idContentSubject === parseInt(idCS))
+                            .map((content_subject) =>
+                                content_subject.contentSubject.split('\n').map((content) => <span>{content}</span>),
+                            )}
                 </div>
-                <div class={cx('wrap-link-bai-tap-end')}>
+                <div class={cx('wrap-link-bai-tap-end', 'p-4')}>
                     <div>
                         <Link className={cx('link-bai-tap-end')} to={`/courses/${course}/${subject}/BaiTap`}>
                             Bài tập vận dụng

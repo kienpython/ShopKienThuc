@@ -9,87 +9,66 @@ import { faCircleChevronRight } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(style);
 
 function SidebarHorizontalRight() {
-    const [subjects, setSubjects] = useState([]);
-    // const [course, setCourse] = useState([]);
-    const { subject } = useParams();
+    const [contentSubjectAndTitleSubjects, setContentSubjectAndTitleSubjects] = useState([]);
     const [isHidden, setIsHidden] = useState(Array(7).fill(false));
-
+    const { course, subject } = useParams();
+    let total = 0;
     const handleToggle = (index) => {
         const newIsHidden = [...isHidden];
         newIsHidden[index - 1] = !newIsHidden[index - 1];
         setIsHidden(newIsHidden);
     };
+
     useEffect(() => {
         axios
-            .get('http://127.0.0.1:8000/api/subject/')
+            .get('http://127.0.0.1:8000/api/contentSubjectAndTitleSubject/')
             .then((res) => {
-                setSubjects(res.data);
+                setContentSubjectAndTitleSubjects(res.data);
             })
             .catch((error) => {
                 console.error('Error fetching subjects:', error);
             });
     }, []);
 
-    // useEffect(() => {
-    //     if (subjects.length > 0) {
-    //         const foundSubject = subjects.find((item) => item.nameSubject === subject);
-    //         if (foundSubject) {
-    //             axios
-    //                 .get(`http://127.0.0.1:8000/api/course/?idCourse=${foundSubject.idCourse}`)
-    //                 .then((res) => {
-    //                     setCourse(res.data);
-    //                 })
-    //                 .catch((error) => {
-    //                     console.error('Error fetching courses:', error);
-    //                 });
-    //         }
-    //     }
-    // }, [subjects, subject]);
-
     return (
         <div className={cx('d-flex justify-content-center flex-column', 'container-menu-subject-ly-thuyet')}>
-            {subjects.map((subjectItem) => (
-                <div key={subjectItem.idSubject}>
-                    <div
-                        className={cx('container-subject-ly-thuyet', 'mb-1')}
-                        onClick={() => handleToggle(subjectItem.idSubject)}
-                    >
-                        <div className={cx('d-flex w-100 p-2')}>
-                            <span className={cx('span-sidebar')}>
-                                {subjectItem.nameSubject} CHƯƠNG 1: ỨNG DỤNG ĐẠO HÀM ĐỂ KHẢO SÁT VÀ VẼ ĐỒ THỊ HÀM SỐ
-                            </span>
-                            <span>
-                                <FontAwesomeIcon icon={faCircleChevronRight} />
-                            </span>
+            {contentSubjectAndTitleSubjects &&
+                contentSubjectAndTitleSubjects.content_subjects &&
+                contentSubjectAndTitleSubjects.title_contents.map((title_content) => (
+                    <div key={title_content.idContentSubject}>
+                        <div
+                            className={cx('container-subject-ly-thuyet', 'mb-1')}
+                            onClick={() => handleToggle(title_content.idTitleContent)}
+                        >
+                            <div className={cx('d-flex w-100 p-2')}>
+                                <span className={cx('span-sidebar')}>
+                                    CHƯƠNG {title_content.idTitleContent}: {title_content.titleContent}
+                                </span>
+                                <span>
+                                    <FontAwesomeIcon icon={faCircleChevronRight} />
+                                </span>
+                            </div>
                         </div>
+                        <div className={cx('d-none')}>{(total = 1)}</div>
+                        {isHidden[title_content.idTitleContent - 1] && (
+                            <div className={cx('wrap-menu-ly-thuyet', 'container')}>
+                                {contentSubjectAndTitleSubjects.content_subjects.map(
+                                    (content_subject) =>
+                                        content_subject.idTitleContent === title_content.idTitleContent && (
+                                            <NavLink
+                                                className={cx('abc')}
+                                                to={`/courses/${course}/${subject}/LyThuyet/${content_subject.idContentSubject}/${total}`}
+                                                alt="..."
+                                            >
+                                                {total}. {content_subject.nameContent}
+                                                <div className={cx('d-none')}>{(total += 1)}</div>
+                                            </NavLink>
+                                        ),
+                                )}
+                            </div>
+                        )}
                     </div>
-                    {isHidden[subjectItem.idSubject - 1] && (
-                        <div className={cx('wrap-menu-ly-thuyet', 'container')}>
-                            <NavLink className={cx('abc')} to="#" alt="...">
-                                1bcdassssssssssssssssssssssssssssssss
-                            </NavLink>
-                            <NavLink className={cx('abc')} to="#" alt="...">
-                                2bcdassssssssssssssssssssssssssssssss
-                            </NavLink>
-                            <NavLink className={cx('abc')} to="#" alt="...">
-                                3bcdassssssssssssssssssssssssssssssss
-                            </NavLink>
-                            <NavLink className={cx('abc')} to="#" alt="...">
-                                4bcdassssssssssssssssssssssssssssssss
-                            </NavLink>
-                            <NavLink className={cx('abc')} to="#" alt="...">
-                                6bcdassssssssssssssssssssssssssssssss
-                            </NavLink>
-                            <NavLink className={cx('abc')} to="#" alt="...">
-                                6bcdassssssssssssssssssssssssssssssss
-                            </NavLink>
-                            <NavLink className={cx('abc')} to="#" alt="...">
-                                7bcdassssssssssssssssssssssssssssssss
-                            </NavLink>
-                        </div>
-                    )}
-                </div>
-            ))}
+                ))}
         </div>
     );
 }
