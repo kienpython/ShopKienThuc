@@ -14,6 +14,13 @@ const image = {
     thiDau: require('~/assets/images/thiDau.png'),
     tracNghiem: require('~/assets/images/tracNghiem.png'),
     icon_ranking: require('~/assets/images/icon_ranking.png'),
-    download: require('~/assets/images/download.jpg'),
+    iconEmoticon1: require('~/assets/images/icon_emoticon1.gif'),
+    iconEmoticon2: require('~/assets/images/icon_emoticon2.gif'),
+    iconEmoticon3: require('~/assets/images/icon_emoticon3.gif'),
+    iconEmoticon4: require('~/assets/images/icon_emoticon4.gif'),
+    iconEmoticon5: require('~/assets/images/icon_emoticon5.gif'),
+    iconEmoticon6: require('~/assets/images/icon_emoticon6.gif'),
+    iconEmoticonContent1: require('~/assets/images/icon_emoticon_content1.png'),
+    iconEmoticonContent2: require('~/assets/images/icon_emoticon_content2.png'),
 };
 export default image;

@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 
 const cx = classNames.bind(style);
 function TracNghiem() {
-    const [contentSubjectAndTitleSubjects, setContentSubjectAndTitleSubjects] = useState([]);
+    const [contentTitleContentList, setContentTitleContentList] = useState([]);
     const [contentSubjectList, setContentSubjectList] = useState([]);
     const { subject, course } = useParams();
     let totalContent = 0;
@@ -15,7 +15,7 @@ function TracNghiem() {
         axios
             .get(`http://127.0.0.1:8000/api/titleContentList/?nameSubject=${subject}`)
             .then((res) => {
-                setContentSubjectAndTitleSubjects(res.data);
+                setContentTitleContentList(res.data);
             })
             .catch(() => {});
     }, [subject]);
@@ -34,9 +34,9 @@ function TracNghiem() {
             </div>
             <div className={cx('d-flex row container align-center', 'container-wrap')}>
                 <div className={cx('d-none')}>{(totalTitle = 0)}</div>
-                {contentSubjectAndTitleSubjects &&
-                    contentSubjectAndTitleSubjects.title_contents &&
-                    contentSubjectAndTitleSubjects.title_contents.map((title_content) => (
+                {contentTitleContentList &&
+                    contentTitleContentList.title_contents &&
+                    contentTitleContentList.title_contents.map((title_content) => (
                         <div className={cx('col-4 ')}>
                             <div className={cx('bg-white mb-4 rounded')}>
                                 <div className={cx('d-none')}>{(totalTitle += 1)}</div>

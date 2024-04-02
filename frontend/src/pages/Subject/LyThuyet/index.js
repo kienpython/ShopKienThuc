@@ -15,8 +15,6 @@ function LyThuyet() {
     const { idCS } = useParams();
     const { bai } = useParams();
 
-    let string = '';
-    let array_string = [];
     useEffect(() => {
         axios
             .get('http://127.0.0.1:8000/api/contentSubjectAndTitleSubject/')
@@ -40,7 +38,10 @@ function LyThuyet() {
                     )}
                 <div class={cx('wrap-link-bai-tap', 'pb-3')}>
                     <div>
-                        <Link className={cx('link-bai-tap')} to={`/courses/${course}/${subject}/BaiTap`}>
+                        <Link
+                            className={cx('link-bai-tap')}
+                            to={`/courses/${course}/${subject}/TracNghiem/${idCS}/${bai}`}
+                        >
                             Bài tập vận dụng
                         </Link>
                     </div>
@@ -56,7 +57,10 @@ function LyThuyet() {
                 </div>
                 <div class={cx('wrap-link-bai-tap-end', 'p-4')}>
                     <div>
-                        <Link className={cx('link-bai-tap-end')} to={`/courses/${course}/${subject}/BaiTap`}>
+                        <Link
+                            className={cx('link-bai-tap-end')}
+                            to={`/courses/${course}/${subject}/TracNghiem/${idCS}/${bai}`}
+                        >
                             Bài tập vận dụng
                             <FontAwesomeIcon className={cx('icon-link-bai-tap')} icon={faAnglesRight} />
                         </Link>

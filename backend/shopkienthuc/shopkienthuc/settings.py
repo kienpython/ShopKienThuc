@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'subject',
     'account',
     'contentSubjectHandle',
+    'questions'
 ]
 
 MIDDLEWARE = [

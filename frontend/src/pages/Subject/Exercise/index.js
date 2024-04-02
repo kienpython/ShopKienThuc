@@ -3,16 +3,38 @@ import style from './Exercise.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const cx = classNames.bind(style);
 
 function Exercise() {
-    const { course } = useParams();
-    const { subject } = useParams();
+    const { course, subject, bai, idCS } = useParams();
+    const [contentSubjectOne, setContentSubjectOne] = useState();
+    const [loading, setLoading] = useState(true); // Biến state để đánh dấu trạng thái tải dữ liệu
+    useEffect(() => {
+        axios
+            .get(`http://127.0.0.1:8000/api/contentSubjectOne/?nameSubject=${subject}&idCS=${idCS}`)
+            .then((res) => {
+                setContentSubjectOne(res.data);
+                setLoading(false); // Khi dữ liệu đã được tải, đặt loading thành false
+            })
+            .catch(() => {
+                setLoading(false); // Xử lý lỗi cũng đặt loading thành false
+            });
+    }, [subject, idCS]);
+    // Nếu đang tải dữ liệu, hiển thị một phần giao diện loading
+    if (loading) {
+        return <div>Loading...</div>;
+    }
     return (
         <div className={cx(' container-fluid align-center p-3 ', 'container-wrap-bai-tap')}>
             <div className={cx('bg-white mb-4 rounded ', 'wrap-content-bai-tap')}>
-                <span className={cx('title-bai-tap', 'text-center')}>Phần 1: Python cơ bản</span>
+                {contentSubjectOne && contentSubjectOne.content_subjects && (
+                    <span className={cx('title-bai-tap', 'text-center')}>
+                        Bài {bai}: {contentSubjectOne.content_subjects[0].nameContent}
+                    </span>
+                )}
                 <div className={cx('row p-3 pb-2')}>
                     <div className={cx('col-4')}>
                         <div className={cx('label-progress')}>Nhận biết (18%)</div>
@@ -102,7 +124,10 @@ function Exercise() {
 
                 <div class={cx('wrap-link-do-exercise', 'p-4')}>
                     <div>
-                        <Link className={cx('link-bai-tap-end')} to={`/courses/${course}/${subject}/LamBaiTap`}>
+                        <Link
+                            className={cx('link-bai-tap-end')}
+                            to={`/courses/${course}/${subject}/LamBaiTap/${idCS}/${bai}`}
+                        >
                             Bắt đầu
                             <FontAwesomeIcon className={cx('icon-link-bai-tap')} icon={faAnglesRight} />
                         </Link>

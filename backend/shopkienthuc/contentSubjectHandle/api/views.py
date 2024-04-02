@@ -36,6 +36,24 @@ class ContentSubjectList(APIView):
             return Response(data = {
                 'content_subjects': "NULL"
             })
+
+class ContentSubjectOne(APIView):
+    def get(self, request):
+        name_Subject = request.query_params.get('nameSubject')
+        idCS = request.query_params.get('idCS')
+        id_Subject = Subject.objects.filter(nameSubject=name_Subject).values('idSubject').first()
+        if id_Subject:
+            content_subjects = ContentSubject.objects.filter(idSubject=id_Subject['idSubject'], idContentSubject=idCS)
+            content_subject_serializer = ContentSubjectSerializer(content_subjects, many=True)
+
+            data = {
+                'content_subjects': content_subject_serializer.data
+            }
+            return Response(data)
+        else:
+            return Response(data = {
+                'content_subjects': "NULL"
+            })
         
 class TitleContentList(APIView):
     def get(self, request):

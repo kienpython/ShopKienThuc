@@ -9,21 +9,25 @@ import { useParams } from 'react-router-dom';
 
 // Khong can dang nhap van vao dc
 const publicRoutes = [
-    { path: '/', component: HomePage },
-    { path: '/login', component: LoginPage },
-    { path: '/register', component: RegisterPage },
+    { path: '/', component: HomePage, layout: null },
+    { path: '/login', component: LoginPage, layout: null },
+    { path: '/register', component: RegisterPage, layout: null },
     { path: '/courses/:course', component: ContentCourse, layout: 'VerticalSidebar' },
     { path: '/courses/:course/:subject', component: ContentCourse, layout: 'VerticalSidebar' },
-    // { path: '/courses/:course/:subject/TracNghiem', component: TracNghiemSubject, layout: 'HorizontalSidebar' },
-    // { path: '/courses/:course/:subject/MenuLyThuyet', component: MenuLyThuyet, layout: 'HorizontalSidebar' },
+
     { path: '/courses/:course/:subject/:type', component: SubjectPage, layout: 'HorizontalSidebar' },
     {
-        path: '/courses/:course/:subject/:type/:idCS/:bai',
-        component: TracNghiemPage,
+        path: '/courses/:course/:subject/LyThuyet/:idCS/:bai',
+        component: LyThuyetSubject,
         layout: 'HorizontalSidebarRight',
     },
-    { path: '/courses/:course/:subject/BaiTap', component: Exercise },
-    { path: '/courses/:course/:subject/LamBaiTap', component: DoExercise, layout: 'OnlyHeader' },
+    {
+        path: '/courses/:course/:subject/TracNghiem/:idCS/:bai',
+        component: Exercise,
+        layout: null,
+    },
+
+    { path: '/courses/:course/:subject/LamBaiTap/:idCS/:bai', component: DoExercise, layout: 'OnlyHeader' },
 ];
 
 function SubjectPage() {
@@ -39,18 +43,6 @@ function SubjectPage() {
     }
 }
 
-function TracNghiemPage() {
-    const { type } = useParams();
-    switch (type) {
-        case 'TracNghiem':
-            return <Exercise />;
-        case 'LyThuyet':
-            return <LyThuyetSubject />;
-
-        default:
-            return <Fragment />;
-    }
-}
 // Phai dang nhap moi vao duoc
 const privateRoutes = [];
 export { publicRoutes, privateRoutes };
