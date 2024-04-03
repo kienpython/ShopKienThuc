@@ -1,23 +1,34 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import style from './Login.module.scss';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '~/context/authcontext';
 const cx = classNames.bind(style);
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [account, setAccount] = useState('');
 
+    const navigate = useNavigate();
+    const { setUser } = useContext(AuthContext);
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://127.0.0.1:8000/api/studentsAccount/', {
                 username: username,
                 password: password,
             });
-
-            console.log('Đăng nhập thành công:', response.data);
+            setAccount(response.data);
         } catch (error) {
             console.error('Đăng nhập thất bại:', error.response.data);
+        }
+
+        if (account) {
+            setUser(account);
+            navigate('/');
+        } else {
+            console.log('abc');
         }
     };
 

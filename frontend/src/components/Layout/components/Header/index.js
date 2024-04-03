@@ -1,21 +1,23 @@
 import axios from 'axios';
 import style from './Header.module.scss';
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import image from '~/assets/images';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '~/context/authcontext';
 
 const cx = classNames.bind(style);
 
 function Header() {
     const [courses, setCourses] = useState([]);
     const [subjects, setSubjects] = useState([]);
+    const { user } = useContext(AuthContext);
 
     const firstSubjectOfCourse = ['Python', 'HTML', 'Data Analyst'];
-
+    console.log(user);
     useEffect(() => {
         const link = document.createElement('link');
         link.rel = 'icon';
@@ -99,19 +101,31 @@ function Header() {
                 </div>
                 <div className={cx('header-not-login')}>
                     <div className={cx('dang-nhap')}>
-                        <FontAwesomeIcon icon={faUser} />
-                        <Link className={cx('header-not-login-a')} to="/login">
-                            Đăng nhập
-                        </Link>
+                        {user && user.accountName ? (
+                            <span>Xin chào</span>
+                        ) : (
+                            <div>
+                                <FontAwesomeIcon icon={faUser} />
+                                <Link className={cx('header-not-login-a')} to="/login">
+                                    Đăng nhập
+                                </Link>
+                            </div>
+                        )}
                     </div>
                     <div>
                         <div className={cx('divider')}></div>
                     </div>
                     <div className={cx('dang-ky')}>
-                        <FontAwesomeIcon icon={faSquareCheck} />
-                        <Link className={cx('header-not-login-a')} to="/register">
-                            Đăng ký
-                        </Link>
+                        {user && user.accountName ? (
+                            <span>{user.accountName}</span>
+                        ) : (
+                            <div>
+                                <FontAwesomeIcon icon={faSquareCheck} />
+                                <Link className={cx('header-not-login-a')} to="/register">
+                                    Đăng ký
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

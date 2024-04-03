@@ -12,6 +12,7 @@ const image = {
     lamDeThi: require('~/assets/images/lamDeThi.png'),
     lyThuyet: require('~/assets/images/lyThuyet.png'),
     thiDau: require('~/assets/images/thiDau.png'),
+    download: require('~/assets/images/download.jpg'),
     tracNghiem: require('~/assets/images/tracNghiem.png'),
     icon_ranking: require('~/assets/images/icon_ranking.png'),
     iconEmoticon1: require('~/assets/images/icon_emoticon1.gif'),

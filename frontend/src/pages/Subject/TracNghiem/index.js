@@ -51,7 +51,7 @@ function TracNghiem() {
                                         {contentSubjectList &&
                                             contentSubjectList.content_subjects &&
                                             contentSubjectList.content_subjects.map(
-                                                (content_subject, index) =>
+                                                (content_subject) =>
                                                     content_subject.idTitleContent === title_content.idTitleContent &&
                                                     ((totalContent += 1),
                                                     (

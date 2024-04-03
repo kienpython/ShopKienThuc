@@ -17,26 +17,17 @@ class StudentAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        print(request)
-        serializer = self.serializer_class(data=request.data)
-        if not self.request.session.exists(self.request.session.session_key):
-            self.request.session.create()
-
-        if serializer.is_valid():
-            account_name = serializer.validated_data.get('accountName')
-            password = serializer.validated_data.get('password')
-            
-            # Sử dụng authenticate để kiểm tra thông tin đăng nhập
-            user = authenticate(request, accountName=account_name, password=password)
-            
-            if user:
-                # Người dùng hợp lệ, tiếp tục xử lý và phản hồi
-                token, created = Token.objects.get_or_create(user=user)
-                return Response({'token': token.key, 'accountName': account_name})
-            else:
-                return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        
-        return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            data = request.data  # Sử dụng `request.data` để truy cập dữ liệu gửi kèm yêu cầu POST
+            account_name = data.get("username")
+            pass_word = data.get("password")
+            student = Student.objects.get(accountName=account_name, password=pass_word)
+            student_serializer = StudentSerializer(student)
+            return Response(student_serializer.data)
+        except Student.DoesNotExist:    
+            return Response(False)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
