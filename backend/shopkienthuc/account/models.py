@@ -3,21 +3,21 @@ from django.db import models
 # Create your models here.
 class Account(models.Model):
     idAccount = models.AutoField(primary_key=True)
-    id_transaction_history = models.IntegerField()
+    id_transaction_history = models.IntegerField(default=0)
     name = models.CharField(max_length=255)
     accountName = models.CharField(max_length=255)
     emailAddress = models.CharField(max_length=255)
-    position = models.CharField(max_length=255)
-    infringe = models.CharField(max_length=255)
+    position = models.CharField(max_length=255,default="")
+    infringe = models.CharField(max_length=255,default="")
     password = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
     
 class Student(Account):
-    activationCode = models.CharField(max_length=255)
-    point = models.IntegerField()
-    learningOutcomes = models.IntegerField()
+    activationCode = models.CharField(max_length=255,default="")
+    point = models.IntegerField(default=0)
+    learningOutcomes = models.IntegerField(default=0)
 
     def check_activation_code(self, code):
         if self.id_transaction_history == code:

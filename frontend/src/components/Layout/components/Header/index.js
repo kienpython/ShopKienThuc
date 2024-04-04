@@ -15,9 +15,10 @@ function Header() {
     const [courses, setCourses] = useState([]);
     const [subjects, setSubjects] = useState([]);
     const { user } = useContext(AuthContext);
+    const [isHover, setIsHover] = useState(false);
 
     const firstSubjectOfCourse = ['Python', 'HTML', 'Data Analyst'];
-    console.log(user);
+
     useEffect(() => {
         const link = document.createElement('link');
         link.rel = 'icon';
@@ -100,11 +101,11 @@ function Header() {
                     </nav>
                 </div>
                 <div className={cx('header-not-login')}>
-                    <div className={cx('dang-nhap')}>
+                    <div>
                         {user && user.accountName ? (
-                            <span>Xin chào</span>
+                            <span className={cx('dang-nhap')}>Xin chào</span>
                         ) : (
-                            <div>
+                            <div className={cx('dang-nhap')}>
                                 <FontAwesomeIcon icon={faUser} />
                                 <Link className={cx('header-not-login-a')} to="/login">
                                     Đăng nhập
@@ -115,15 +116,35 @@ function Header() {
                     <div>
                         <div className={cx('divider')}></div>
                     </div>
-                    <div className={cx('dang-ky')}>
+                    <div>
                         {user && user.accountName ? (
-                            <span>{user.accountName}</span>
+                            <div className={cx('user-name')} onMouseLeave={() => setIsHover(false)}>
+                                <div className={cx('dang-nhap')} onMouseEnter={() => setIsHover(true)}>
+                                    <span className={cx('dang-nhap')}>{user.accountName}</span>
+                                </div>
+                                {isHover && (
+                                <div className={cx('wrap-menu-option-user')}>
+                                    <div className={cx('menu-option-user')}>
+                                        <ul>
+                                            <li>Thông tin cá nhân</li>
+                                            <li>Mã kích hoạt</li>
+                                            <li>Đổi mật khẩu</li>
+                                            <li>Kết quả học tập</li>
+                                            <li>Lịch sử giao dịch</li>
+                                            <li>Đăng xuất</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                )}
+                            </div>
                         ) : (
                             <div>
-                                <FontAwesomeIcon icon={faSquareCheck} />
-                                <Link className={cx('header-not-login-a')} to="/register">
-                                    Đăng ký
-                                </Link>
+                                <div className={cx('dang-ky')}>
+                                    <FontAwesomeIcon icon={faSquareCheck} />
+                                    <Link className={cx('header-not-login-a', 'dang-ky')} to="/register">
+                                        Đăng ký
+                                    </Link>
+                                </div>
                             </div>
                         )}
                     </div>

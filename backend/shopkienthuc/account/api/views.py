@@ -28,6 +28,29 @@ class StudentAPIView(APIView):
             return Response(False)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class RegisterStudent(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            name = data.get('name')
+            accountName = data.get("username")
+            emailAddress = data.get("email")
+            password = data.get("password")
+            activationCode = data.get('code')
+            
+            # Kiểm tra xem tài khoản đã tồn tại trong CSDL chưa
+            if Student.objects.filter(accountName=accountName).exists():
+                return Response({'error': 'Account name already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Tạo đối tượng Student mới và lưu vào CSDL
+            new_student = Student(name=name, accountName=accountName, emailAddress=emailAddress, password=password, activationCode=activationCode)
+            new_student.save()
+            
+            return Response({'success': 'Registered successfully'}, status=status.HTTP_201_CREATED)
+        
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

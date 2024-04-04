@@ -125,5 +125,38 @@ ul {
 .dang-ky:hover .header-not-login-a,
 .dang-nhap:hover,
 .dang-nhap:hover .header-not-login-a {
+    cursor: pointer;
     color: var(--primary);
+}
+
+.user-name {
+    position: relative;
+}
+
+.wrap-menu-option-user {
+    position: absolute;
+    top: 17px;
+    left: -128px;
+}
+
+.menu-option-user > ul > li:hover {
+    background: linear-gradient(0.3turn, #04b19a, #99ffff);
+    color: white;
+    cursor: pointer;
+}
+.menu-option-user > ul > li {
+    padding: 5px;
+    margin: 10px 10px 5px 0px;
+    border-radius: 100px;
+}
+.menu-option-user {
+    background-color: white;
+    margin-top: 20px;
+    line-height: 24px;
+    width: 13rem;
+    text-align: left;
+    box-shadow: 3px 3px 13px 3px #ccc;
+    border-radius: 10px;
+    padding-left: 10px;
+    border: 1px solid #e7e6e6;
 }

@@ -1,26 +1,45 @@
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { FaCircleXmark } from 'react-icons/fa6';
 import style from './Register.module.scss';
 const cx = classNames.bind(style);
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [code, setCode] = useState('');
+    const [stateRegister, setStateRegister] = useState(null);
+    const [notification, setNotification] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/studentsAccount/', {
+            const response = await axios.post('http://127.0.0.1:8000/api/studentsAccount/post_dang_ky', {
+                name: name,
                 username: username,
                 password: password,
+                email: email,
+                code: code,
             });
-
-            console.log('Đăng ký thành công:', response.data);
+            setNotification(response.data.success);
+            setStateRegister(true);
         } catch (error) {
-            console.error('Đăng ký thất bại:', error.response.data);
+            setNotification(error.response.data.error);
+            setStateRegister(false);
         }
     };
-
+    if (stateRegister) {
+        // eslint-disable-next-line no-restricted-globals
+        const value = confirm(notification);
+        setStateRegister(null);
+        if (value) {
+            navigate('/login');
+        }
+    }
     return (
         <div className={cx('d-flex justify-content-center')}>
             <div className={cx('contain-login')}>
@@ -37,7 +56,7 @@ function Login() {
                         name="name"
                         id="name"
                         placeholder="Họ và tên"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                     />
 
                     <input
@@ -62,7 +81,7 @@ function Login() {
                         name="emailAddress"
                         id="emailAddress"
                         placeholder="Email"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <input
                         className={cx('login-input')}
@@ -70,7 +89,7 @@ function Login() {
                         name="activationCode"
                         id="activationCode"
                         placeholder="Mã kích hoạt tài khoản (Nếu có)"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setCode(e.target.value)}
                     />
                     <div className={cx('user-remember-forget')}>
                         <div>
@@ -83,6 +102,12 @@ function Login() {
                             </a>
                         </div>
                     </div>
+                    {stateRegister === false && (
+                        <span className={cx('d-flex align-items-center')}>
+                            <FaCircleXmark className={cx('text-danger')} />
+                            <span className={cx('text-danger', 'px-2')}>{notification}</span>
+                        </span>
+                    )}
                     <div className={cx('text-center', 'btn-login')}>
                         <button type="submit" onClick={handleLogin}>
                             Đăng ký
