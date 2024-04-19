@@ -1,21 +1,22 @@
 from django.db import models
-
+import datetime
 # Create your models here.
 class Account(models.Model):
     idAccount = models.AutoField(primary_key=True)
-    id_transaction_history = models.IntegerField(default=0)
+    id_transaction_history = models.IntegerField(default=0,null=True)
     name = models.CharField(max_length=255)
     accountName = models.CharField(max_length=255)
     emailAddress = models.CharField(max_length=255)
     position = models.CharField(max_length=255,default="")
-    infringe = models.CharField(max_length=255,default="")
+    infringe = models.CharField(max_length=255,default="",null=True)
     password = models.CharField(max_length=255)
+    expiry = models.DateTimeField(default=datetime.datetime(2000, 11, 11),null=True)
 
     def __str__(self):
         return self.name
     
 class Student(Account):
-    activationCode = models.CharField(max_length=255,default="")
+    activationCode = models.CharField(max_length=255,default="",null=True)
     point = models.IntegerField(default=0)
     learningOutcomes = models.IntegerField(default=0)
 
@@ -30,6 +31,4 @@ class Teacher(Account):
     phoneNumber = models.CharField(max_length=255)
     bankAccountNumber = models.CharField(max_length=255)
     wage = models.CharField(max_length=255)
-    
-    def pay(self):
-        return self.bankAccountNumber
+

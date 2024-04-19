@@ -14,10 +14,14 @@ const cx = classNames.bind(style);
 function Header() {
     const [courses, setCourses] = useState([]);
     const [subjects, setSubjects] = useState([]);
-    const { user } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
     const [isHover, setIsHover] = useState(false);
 
     const firstSubjectOfCourse = ['Python', 'HTML', 'Data Analyst'];
+
+    const handleLogout = () => {
+        setUser('');
+    };
 
     useEffect(() => {
         const link = document.createElement('link');
@@ -123,18 +127,28 @@ function Header() {
                                     <span className={cx('dang-nhap')}>{user.accountName}</span>
                                 </div>
                                 {isHover && (
-                                <div className={cx('wrap-menu-option-user')}>
-                                    <div className={cx('menu-option-user')}>
-                                        <ul>
-                                            <li>Thông tin cá nhân</li>
-                                            <li>Mã kích hoạt</li>
-                                            <li>Đổi mật khẩu</li>
-                                            <li>Kết quả học tập</li>
-                                            <li>Lịch sử giao dịch</li>
-                                            <li>Đăng xuất</li>
-                                        </ul>
+                                    <div className={cx('wrap-menu-option-user')}>
+                                        <div className={cx('menu-option-user')}>
+                                            <ul>
+                                                <li>
+                                                    <Link to="/code">Thông tin cá nhân</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/code">Mã kích hoạt</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/code">Đổi mật khẩu</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/code">Kết quả học tập</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/code">Lịch sử giao dịch</Link>
+                                                </li>
+                                                <li onClick={handleLogout}>Đăng xuất</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
                                 )}
                             </div>
                         ) : (

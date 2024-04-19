@@ -9,7 +9,7 @@ import {
     HorizontalSidebarRight,
     HeaderOnly,
 } from '~/components/Layout';
-
+import { Fragment } from 'react';
 function App() {
     return (
         <AuthProvider>
@@ -30,6 +30,8 @@ function App() {
                                     ? HorizontalSidebarRight
                                     : route.layout === 'OnlyHeader'
                                     ? HeaderOnly
+                                    : route.layout === 'Admin'
+                                    ? Fragment
                                     : HeaderAndFooter;
                             const Page = route.component;
                             return (

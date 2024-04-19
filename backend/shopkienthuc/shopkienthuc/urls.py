@@ -9,5 +9,7 @@ urlpatterns = [
     path('api/', include('account.api.urls')),
     path('api/', include('contentSubjectHandle.api.urls')),
     path('api/', include('questions.api.urls')),
+    path('api/', include('buyCode.api.urls')),
+    path('api/', include('statistic.api.urls')),
 
 ]

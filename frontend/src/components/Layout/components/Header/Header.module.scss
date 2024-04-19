@@ -100,6 +100,7 @@ ul {
     width: 100%;
     box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
     display: none;
+    z-index: 1;
 }
 
 .list-style-subject-a {
@@ -141,9 +142,14 @@ ul {
 
 .menu-option-user > ul > li:hover {
     background: linear-gradient(0.3turn, #04b19a, #99ffff);
-    color: white;
     cursor: pointer;
+    color: white;
 }
+
+.menu-option-user > ul > li:hover > a {
+    color: white;
+}
+
 .menu-option-user > ul > li {
     padding: 5px;
     margin: 10px 10px 5px 0px;

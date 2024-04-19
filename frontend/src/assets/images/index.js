@@ -23,5 +23,8 @@ const image = {
     iconEmoticon6: require('~/assets/images/icon_emoticon6.gif'),
     iconEmoticonContent1: require('~/assets/images/icon_emoticon_content1.png'),
     iconEmoticonContent2: require('~/assets/images/icon_emoticon_content2.png'),
+    buyCodeBlue: require('~/assets/images/buyCodeBlue.png'),
+    buyCodeGray: require('~/assets/images/buyCodeGray.png'),
+    buyCodePink: require('~/assets/images/buyCodePink.png'),
 };
 export default image;

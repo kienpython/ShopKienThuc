@@ -26,3 +26,12 @@ class QuestionsSubjectList(APIView):
             return Response({'message': 'Data processed successfully'})
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class QuestionsSubjectAll(APIView):
+    def get(self, request):
+        id_Subject = Questions.objects.all().order_by("idContentSubject")
+        questions_serializer = QuestionsSerializer(id_Subject, many=True)
+        data = {
+            'questions': questions_serializer.data
+        }
+        return Response(data)

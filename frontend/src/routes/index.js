@@ -1,8 +1,10 @@
 // import { HeaderOnly } from '~/components/Layout';
 import HomePage from '~/pages/Home';
+import { Code, Momo } from '~/pages/Code';
 import LoginPage from '~/pages/Login';
 import RegisterPage from '~/pages/Register';
 import ContentCourse from '~/pages/Courses';
+import AdminPage from '~/pages/Admin';
 import { TracNghiemSubject, LyThuyetSubject, Exercise, DoExercise, MenuLyThuyet } from '~/pages/Subject';
 import { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
@@ -10,8 +12,11 @@ import { useParams } from 'react-router-dom';
 // Khong can dang nhap van vao dc
 const publicRoutes = [
     { path: '/', component: HomePage, layout: null },
+    { path: '/admin/:option', component: AdminPage, layout: 'Admin' },
+    { path: '/code', component: Code, layout: null },
     { path: '/login', component: LoginPage, layout: null },
     { path: '/register', component: RegisterPage, layout: null },
+    { path: '/code/Momo', component: Momo, layout: null },
     { path: '/courses/:course', component: ContentCourse, layout: 'VerticalSidebar' },
     { path: '/courses/:course/:subject', component: ContentCourse, layout: 'VerticalSidebar' },
 
@@ -43,6 +48,19 @@ function SubjectPage() {
     }
 }
 
-// Phai dang nhap moi vao duoc
+// Phai dang nhap moi vao
+
+// const PrivateRoute = ({ component: Component, ...rest }) => (
+//     <Route {...rest} render={(props) => (
+//       isAuthenticated()
+//         ? <Component {...props} />
+//         : <Redirect to='/login' />
+//     )} />
+//   );
+
+const isAuthenticated = () => {
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    // Trả về true nếu đã đăng nhập, ngược lại trả về false
+};
 const privateRoutes = [];
 export { publicRoutes, privateRoutes };

@@ -15,22 +15,48 @@ function Login() {
     const { setUser } = useContext(AuthContext);
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/studentsAccount/dangKy', {
+            const response = await axios.post('http://127.0.0.1:8000/api/studentsAccount/', {
                 username: username,
                 password: password,
             });
             setAccount(response.data);
+            setUser(response.data);
         } catch (error) {
             console.error('Đăng nhập thất bại:', error.response.data);
         }
-
-        if (account) {
-            setUser(account);
-            navigate('/');
-        } else {
-            console.log('abc');
-        }
     };
+    if (account) {
+        navigate('/');
+    }
+
+    // const handleLogin = async () => {
+    //     try {
+    //         const response = await axios.post('http://127.0.0.1:8000/api/studentsAccount/', {
+    //             username: username,
+    //             password: password,
+    //         });
+    //         const token = response.data.token;
+    //         // Lưu trữ token vào local storage hoặc cookie
+    //         localStorage.setItem('token', token);
+
+    //         // Kiểm tra token sau khi đăng nhập thành công
+    //         try {
+    //             // Lấy token từ local storage
+    //             const token = localStorage.getItem('token');
+    //             const response = await axios.get('http://localhost:8000/api/studentsAccount/protected/', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             });
+    //             setUser(response.data.account);
+    //             navigate('/');
+    //         } catch (error) {
+    //             console.error('Failed to fetch data:', error);
+    //         }
+    //     } catch (error) {
+    //         console.error('Đăng nhập thất bại:', error.response.data);
+    //     }
+    // };
 
     return (
         <div className={cx('d-flex justify-content-center container-fluid')}>
