@@ -10,23 +10,32 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [account, setAccount] = useState('');
+    const [checkAdmin, setCheckAdmin] = useState(-1);
+    const [state, setState] = useState(-1);
 
     const navigate = useNavigate();
-    const { setUser } = useContext(AuthContext);
+    const { setUser, setPosition, position } = useContext(AuthContext);
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/studentsAccount/', {
+            const response = await axios.post('http://127.0.0.1:8000/api/checkAccount/', {
                 username: username,
                 password: password,
+                position: checkAdmin,
             });
             setAccount(response.data);
             setUser(response.data);
+            setPosition(response.data.position);
+            setState(1);
         } catch (error) {
+            setState(0);
             console.error('Đăng nhập thất bại:', error.response.data);
         }
     };
-    if (account) {
+    console.log(position);
+    if (account && position === 'Student') {
         navigate('/');
+    } else if (account && (position === 'Teacher' || position === 'Admin')) {
+        navigate('/admin/home');
     }
 
     // const handleLogin = async () => {
@@ -57,7 +66,7 @@ function Login() {
     //         console.error('Đăng nhập thất bại:', error.response.data);
     //     }
     // };
-
+    console.log(checkAdmin);
     return (
         <div className={cx('d-flex justify-content-center container-fluid')}>
             <div className={cx('contain-login')}>
@@ -95,6 +104,22 @@ function Login() {
                             </a>
                         </div>
                     </div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            name="checkAdmin"
+                            id="checkAdmin"
+                            onChange={() => setCheckAdmin(-checkAdmin)}
+                        />
+                        <label htmlFor="checkAdmin" className="pl-2 font-italic ">
+                            Bạn là giáo viên hoặc admin?
+                        </label>
+                    </div>
+                    {state === 0 && (
+                        <div>
+                            <p className="text-danger text-center">Tài khoản hoặc mật khẩu không chính xác!</p>
+                        </div>
+                    )}
                     <div className={cx('text-center', 'btn-login')}>
                         <button type="submit" onClick={handleLogin}>
                             Đăng nhập

@@ -8,12 +8,14 @@ import AdminPage from '~/pages/Admin';
 import { TracNghiemSubject, LyThuyetSubject, Exercise, DoExercise, MenuLyThuyet } from '~/pages/Subject';
 import { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
+import Summary from '~/pages/Summary';
 
 // Khong can dang nhap van vao dc
 const publicRoutes = [
     { path: '/', component: HomePage, layout: null },
     { path: '/admin/:option', component: AdminPage, layout: 'Admin' },
     { path: '/code', component: Code, layout: null },
+    { path: '/summary/:point/:time/:totalQuestions', component: Summary, layout: null },
     { path: '/login', component: LoginPage, layout: null },
     { path: '/register', component: RegisterPage, layout: null },
     { path: '/code/Momo', component: Momo, layout: null },

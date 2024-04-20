@@ -1,7 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import style from './DoExercise.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AuthContext } from '~/context/authcontext';
+
 import {
     faAnglesDown,
     faAnglesRight,
@@ -12,7 +14,7 @@ import {
     faPenToSquare,
     faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import image from '~/assets/images';
 
@@ -33,6 +35,9 @@ function DoExercise() {
     const [formatTime, setFormatTime] = useState('');
 
     let totalQuestionsDone = '';
+    const navigate = useNavigate();
+
+    const { user } = useContext(AuthContext);
 
     // -------------------------------------------------------------------------
     // Format sang định dạng 00:00:00
@@ -81,7 +86,7 @@ function DoExercise() {
                 setCheckAnswer(1);
                 setShowImgStatus(true);
                 setImgNow(arr_image.true[index]);
-                setPoint(point + 10);
+                setPoint(point + 5);
             } else {
                 setCheckAnswer(0);
                 setShowImgStatus(false);
@@ -112,8 +117,8 @@ function DoExercise() {
     // Gửi dữ liệu qua phương thức Post sang django
     const sendPoint = async () => {
         try {
-            const data = { point: point };
-            const response = await axios.post('http://127.0.0.1:8000/api/questionsSubjectList/', data);
+            const data = { username: user.accountName, point: point };
+            const response = await axios.put('http://127.0.0.1:8000/api/studentsAccount/', data);
             console.log(response.data); // Log response data if needed
             // Handle response data or perform additional actions
         } catch (error) {
@@ -123,6 +128,7 @@ function DoExercise() {
     };
     const handleEndQuestion = () => {
         sendPoint();
+        navigate(`/summary/${point}/${formatTime}/${totalQuestionsDone}`);
     };
 
     // -----------------------------------------------------------------------------------------
@@ -325,7 +331,7 @@ function DoExercise() {
                                                             onClick={handleEndQuestion}
                                                         >
                                                             <div className={cx('wrap-button-watch-answer')}>
-                                                                <span>Tổng kết</span>
+                                                                <span onClick={handleEndQuestion}>Tổng kết</span>
                                                                 <FontAwesomeIcon
                                                                     icon={faAnglesRight}
                                                                     className={cx('icon-next-question')}

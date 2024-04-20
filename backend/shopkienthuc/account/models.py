@@ -5,7 +5,7 @@ class Account(models.Model):
     idAccount = models.AutoField(primary_key=True)
     id_transaction_history = models.IntegerField(default=0,null=True)
     name = models.CharField(max_length=255)
-    accountName = models.CharField(max_length=255)
+    accountName = models.CharField(max_length=255,unique=True)
     emailAddress = models.CharField(max_length=255)
     position = models.CharField(max_length=255,default="")
     infringe = models.CharField(max_length=255,default="",null=True)

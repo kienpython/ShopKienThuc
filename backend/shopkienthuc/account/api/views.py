@@ -47,7 +47,42 @@ class StudentAPIView(APIView):
         #     return Response({'token': token})
         # else:
         #     return Response({'error': 'Invalid username or password'}, status=400)
-   
+    def put(self, request):
+        try:
+            data = request.data
+            account_name = data.get("username")
+            new_point = int(data.get("point"))
+            student = Student.objects.get(accountName=account_name)
+            student.point += new_point
+            student.save()  # Lưu thay đổi vào cơ sở dữ liệu
+            return Response({'message': 'Student position updated successfully'})
+        except Student.DoesNotExist:
+            return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class CheckAccount(APIView):
+    def post(self, request):
+        try:
+            data = request.data  # Sử dụng `request.data` để truy cập dữ liệu gửi kèm yêu cầu POST
+            account_name = data.get("username")
+            pass_word = data.get("password")
+            position = data.get("position")
+            
+            if position==1:
+                teacher = Teacher.objects.get(accountName=account_name, password=pass_word)
+                teacher_serializer = TeacherSerializer(teacher)
+                return Response(teacher_serializer.data)
+            else:
+             
+                student = Student.objects.get(accountName=account_name, password=pass_word)
+                student_serializer = StudentSerializer(student)
+                return Response(student_serializer.data)
+        except Student.DoesNotExist and Teacher.DoesNotExist:    
+            return Response(False)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class StudentAPIViewByExpiry(APIView):
     serializer_class = StudentSerializer

@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import StudentAPIView,RegisterStudent,ProtectedView,StudentAPIViewByExpiry,TeachersAPIViewAll
+from .views import StudentAPIView,RegisterStudent,ProtectedView,StudentAPIViewByExpiry,TeachersAPIViewAll,CheckAccount
 from django.urls import path
 
 urlpatterns = [
@@ -8,5 +8,7 @@ urlpatterns = [
     path('studentsAccount/protected/', ProtectedView.as_view(), name='protected-view'),
     path('studentAPIViewByExpiry/', StudentAPIViewByExpiry.as_view(), name='studentAPIViewByExpiry'),
     path('teachersAPIViewAll/', TeachersAPIViewAll.as_view(), name='teachersAPIViewAll'),
+    path('checkAccount/', CheckAccount.as_view(), name='checkAccount'),
+
     # Thêm các URL patterns khác nếu cần
 ]
