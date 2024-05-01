@@ -13,9 +13,9 @@ import Summary from '~/pages/Summary';
 // Khong can dang nhap van vao dc
 const publicRoutes = [
     { path: '/', component: HomePage, layout: null },
-    { path: '/admin/:option', component: AdminPage, layout: 'Admin' },
+    // { path: '/admin/:option', component: AdminPage, layout: 'Admin' },
     { path: '/code', component: Code, layout: null },
-    { path: '/summary/:point/:time/:totalQuestions', component: Summary, layout: null },
+    { path: '/courses/:course/:subject/summary/:point/:time/:totalQuestions', component: Summary, layout: null },
     { path: '/login', component: LoginPage, layout: null },
     { path: '/register', component: RegisterPage, layout: null },
     { path: '/code/Momo', component: Momo, layout: null },
@@ -64,5 +64,5 @@ const isAuthenticated = () => {
     // Kiểm tra xem người dùng đã đăng nhập chưa
     // Trả về true nếu đã đăng nhập, ngược lại trả về false
 };
-const privateRoutes = [];
+const privateRoutes = [{ path: '/admin/:option', component: AdminPage, layout: 'Admin' }];
 export { publicRoutes, privateRoutes };

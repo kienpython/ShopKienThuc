@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { useState, useContext } from 'react';
 import axios from 'axios';
 import style from './Login.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '~/context/authcontext';
 const cx = classNames.bind(style);
 
@@ -26,17 +26,21 @@ function Login() {
             setUser(response.data);
             setPosition(response.data.position);
             setState(1);
+            // Lưu dữ liệu vào Session Storage
+            sessionStorage.setItem('taiKhoan', response.data.accountName);
+            sessionStorage.setItem('position', response.data.position);
+
+            if (response.data && response.data.position === 'Student') {
+                navigate('/');
+            }
+            if (response.data && (response.data.position === 'Teacher' || response.data.position === 'Admin')) {
+                navigate('/admin/home');
+            }
         } catch (error) {
             setState(0);
             console.error('Đăng nhập thất bại:', error.response.data);
         }
     };
-    console.log(position);
-    if (account && position === 'Student') {
-        navigate('/');
-    } else if (account && (position === 'Teacher' || position === 'Admin')) {
-        navigate('/admin/home');
-    }
 
     // const handleLogin = async () => {
     //     try {
@@ -66,7 +70,7 @@ function Login() {
     //         console.error('Đăng nhập thất bại:', error.response.data);
     //     }
     // };
-    console.log(checkAdmin);
+
     return (
         <div className={cx('d-flex justify-content-center container-fluid')}>
             <div className={cx('contain-login')}>
@@ -94,8 +98,8 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <div className={cx('user-remember-forget')}>
-                        <div>
-                            <input type="checkbox" name="remember" id="remember" />
+                        <div className={cx('wrap-remember')}>
+                            <input className={cx('display-block')} type="checkbox" name="remember" id="remember" />
                             <label htmlFor="remember">Nhớ mật khẩu</label>
                         </div>
                         <div className={cx('user-forget')}>
@@ -106,6 +110,7 @@ function Login() {
                     </div>
                     <div>
                         <input
+                            className={cx('display-block')}
                             type="checkbox"
                             name="checkAdmin"
                             id="checkAdmin"
@@ -129,7 +134,7 @@ function Login() {
                 <div className={cx('text-center', 'container-hotline')}>
                     <div>
                         <span>Chưa có tài khoản?</span>
-                        <a href="/">Đăng ký</a>
+                        <Link to="/register">Đăng ký</Link>
                     </div>
                     <div>
                         <span>Hotline hỗ trợ: </span>

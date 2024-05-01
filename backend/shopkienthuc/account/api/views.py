@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework.viewsets import ModelViewSet
 from .serializers import StudentSerializer, TeacherSerializer
 from account.models import Student, Teacher
@@ -51,9 +52,14 @@ class StudentAPIView(APIView):
         try:
             data = request.data
             account_name = data.get("username")
-            new_point = int(data.get("point"))
-            student = Student.objects.get(accountName=account_name)
-            student.point += new_point
+            if data.get("point"):
+                new_point = int(data.get("point"))
+                student = Student.objects.get(accountName=account_name)
+                student.point += new_point
+            if data.get("idTransactionHistory"):
+                new_idTransactionHistory = int(data.get("idTransactionHistory"))
+                student = Student.objects.get(accountName=account_name)
+                student.id_transaction_history += new_idTransactionHistory
             student.save()  # Lưu thay đổi vào cơ sở dữ liệu
             return Response({'message': 'Student position updated successfully'})
         except Student.DoesNotExist:
@@ -61,6 +67,19 @@ class StudentAPIView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def delete(self, request,idAccount):
+        idAccount = idAccount
+        print(idAccount)
+        if idAccount is None:
+            return Response({'message': 'Thiếu tham số idAccount'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            student = Student.objects.get(idAccount=idAccount)
+        except Student.DoesNotExist:
+            return Response({'message': 'Không tìm học viên'}, status=status.HTTP_404_NOT_FOUND)
+        
+        student.delete()
+        return Response({'message': 'Xóa khóa học thành công'}, status=status.HTTP_200_OK)
 
 class CheckAccount(APIView):
     def post(self, request):
@@ -90,6 +109,45 @@ class StudentAPIViewByExpiry(APIView):
         students = Student.objects.all().order_by("expiry")
         serializer = self.serializer_class(students, many=True)
         return Response(serializer.data)
+    
+    def post(self, request):
+        
+        try:
+            data = request.data
+            # Chuyển đổi đối tượng datetime.date thành chuỗi định dạng YYYY-MM-DD và dạng date()-Giá trị ngày
+            data["expiry"] = datetime.strptime(data["expiry"], "%Y-%m-%dT%H:%M")
+            print(data)
+            # Chuyển đổi giá trị price thành kiểu số thực
+            serializer = StudentSerializer(data=data)
+            
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'Add thành công'}, status=status.HTTP_201_CREATED)
+            else:
+                print(serializer.errors)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except StudentSerializer.DoesNotExist:    
+            return Response(False)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def put(self, request):
+        try:
+            data = request.data  # Sử dụng `request.data` để truy cập dữ liệu gửi kèm yêu cầu POST
+            for key, value in data.items():
+                if value != "":
+                    if key == "idAccount":  
+                        student = Student.objects.get(idAccount=value)
+                    else:
+                        setattr(student, key, value)
+            student.save()
+
+            return Response({'message': 'Student updated successfully'})
+        except Student.DoesNotExist:
+            return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # class StudentAPIView(APIView):
     # serializer_class = StudentSerializer
@@ -187,6 +245,56 @@ class TeachersAPIViewAll(APIView):
         teachers = Teacher.objects.all()
         serializer = TeacherSerializer(teachers, many=True)
         return Response(serializer.data)
+
+    def post(self, request):
+        
+        try:
+            data = request.data
+            # Chuyển đổi đối tượng datetime.date thành chuỗi định dạng YYYY-MM-DD và dạng date()-Giá trị ngày
+            data["expiry"] = datetime.strptime(data["expiry"], "%Y-%m-%dT%H:%M")
+            print(data)
+            # Chuyển đổi giá trị price thành kiểu số thực
+            serializer = TeacherSerializer(data=data)
+            
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'Add thành công'}, status=status.HTTP_201_CREATED)
+            else:
+                print(serializer.errors)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    def delete(self, request,idAccount):
+        idAccount = idAccount
+        print(idAccount)
+        if idAccount is None:
+            return Response({'message': 'Thiếu tham số idAccount'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            teacher = Teacher.objects.get(idAccount=idAccount)
+        except Teacher.DoesNotExist:
+            return Response({'message': 'Không tìm học viên'}, status=status.HTTP_404_NOT_FOUND)
+        
+        teacher.delete()
+        return Response({'message': 'Xóa khóa học thành công'}, status=status.HTTP_200_OK)
+    
+    def put(self, request):
+        try:
+            data = request.data  # Sử dụng `request.data` để truy cập dữ liệu gửi kèm yêu cầu POST
+            for key, value in data.items():
+                if value != "":
+                    if key == "idAccount":  
+                        teacher = Teacher.objects.get(idAccount=value)
+                    else:
+                        setattr(teacher, key, value)
+            teacher.save()
+            return Response({'message': 'Student updated successfully'})
+        except Teacher.DoesNotExist:
+            return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Login and Logout Views
 # class LoginView(APIView):

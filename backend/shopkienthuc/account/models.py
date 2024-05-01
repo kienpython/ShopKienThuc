@@ -7,7 +7,7 @@ class Account(models.Model):
     name = models.CharField(max_length=255)
     accountName = models.CharField(max_length=255,unique=True)
     emailAddress = models.CharField(max_length=255)
-    position = models.CharField(max_length=255,default="")
+    position = models.CharField(max_length=255,default="Student")
     infringe = models.CharField(max_length=255,default="",null=True)
     password = models.CharField(max_length=255)
     expiry = models.DateTimeField(default=datetime.datetime(2000, 11, 11),null=True)

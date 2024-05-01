@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from './Header/Header';
 import { useParams } from 'react-router-dom';
 import {
@@ -16,14 +16,31 @@ import {
     NotFound,
 } from './pagesAdmin/Pages';
 import SideNav from './SideNav/SideNav';
+import { AuthContext } from '~/context/authcontext';
 
 function AdminPage() {
     var { option } = useParams();
-    console.log(option);
+
+    const position = sessionStorage.getItem('position');
+   
     return (
         <div>
             <Header />
-            {option && option === 'home' ? (
+            {option && position === 'Teacher' ? (
+                option === 'home' ? (
+                    <Home />
+                ) : option === 'subjects' ? (
+                    <Subjects />
+                ) : option === 'questions' ? (
+                    <Questions />
+                ) : option === 'titleContents' ? (
+                    <Titles />
+                ) : option === 'contentSubjects' ? (
+                    <Contents />
+                ) : (
+                    <NotFound />
+                )
+            ) : option === 'home' ? (
                 <Home />
             ) : option === 'courses' ? (
                 <Courses />
@@ -48,6 +65,7 @@ function AdminPage() {
             ) : (
                 <NotFound />
             )}
+
             <SideNav />
         </div>
     );

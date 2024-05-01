@@ -6,7 +6,7 @@ import datetime
 class Statistic(models.Model):
     idTransactionHistory = models.AutoField(primary_key=True)
     idAccount = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
-    position = models.CharField(max_length=255,default="student")
+    position = models.CharField(max_length=255,default="Student")
     content = models.CharField(max_length=255)
     price = models.FloatField()
     time = models.DateField(default=datetime.datetime(2000, 11, 11))

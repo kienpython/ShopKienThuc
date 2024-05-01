@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import style from './DoExercise.module.scss';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +24,7 @@ function DoExercise() {
     const [questions, setQuestions] = useState();
     const [checkAnswer, setCheckAnswer] = useState(2);
     const [checkSeeExplanation, setCheckSeeExplanation] = useState(0);
-    const { subject, idCS } = useParams();
+    const { subject, idCS, course, bai } = useParams();
     const [selectedOption, setSelectedOption] = useState('');
     const [loading, setLoading] = useState(true); // Biến state để đánh dấu trạng thái tải dữ liệu
     const [nowQuestion, setNowQuestion] = useState(1);
@@ -128,7 +128,7 @@ function DoExercise() {
     };
     const handleEndQuestion = () => {
         sendPoint();
-        navigate(`/summary/${point}/${formatTime}/${totalQuestionsDone}`);
+        navigate(`/courses/${course}/${subject}/summary/${point}/${formatTime}/${totalQuestionsDone}`);
     };
 
     // -----------------------------------------------------------------------------------------
@@ -304,7 +304,13 @@ function DoExercise() {
                                                             <span>Gợi ý</span>
                                                         </div>
                                                     ) : (
-                                                        <span>Xem lại lý thuyết</span>
+                                                        <span>
+                                                            <Link
+                                                                to={`/courses/${course}/${subject}/LyThuyet/${idCS}/${bai}`}
+                                                            >
+                                                                Xem lại lý thuyết
+                                                            </Link>
+                                                        </span>
                                                     )}
                                                 </div>
                                                 <div className={cx('wrap-button-next-and-watch')}>
@@ -343,7 +349,10 @@ function DoExercise() {
                                                             className={cx('wrap-button-next-and-watch-in')}
                                                             onClick={handleNextQuestion}
                                                         >
-                                                            <div className={cx('wrap-button-watch-answer')}>
+                                                            <div
+                                                                className={cx('wrap-button-watch-answer')}
+                                                                onClick={() => setCheckSeeExplanation(0)}
+                                                            >
                                                                 <span>Câu hỏi tiếp theo</span>
                                                                 <FontAwesomeIcon
                                                                     icon={faAnglesRight}

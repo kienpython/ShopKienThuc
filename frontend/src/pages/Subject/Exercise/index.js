@@ -10,6 +10,11 @@ const cx = classNames.bind(style);
 
 function Exercise() {
     const { course, subject, bai, idCS } = useParams();
+    const [questions, setQuestions] = useState();
+    const [percentTwig, setPercentTwig] = useState(0);
+    const [percentUnderstanding, setPercentUnderstanding] = useState(0);
+    const [percentManipulate, setPercentManipulate] = useState(0);
+    const [percentHighlyApplicable, setPercentHighlyApplicable] = useState(0);
     const [contentSubjectOne, setContentSubjectOne] = useState();
     const [loading, setLoading] = useState(true); // Biến state để đánh dấu trạng thái tải dữ liệu
     useEffect(() => {
@@ -23,6 +28,48 @@ function Exercise() {
                 setLoading(false); // Xử lý lỗi cũng đặt loading thành false
             });
     }, [subject, idCS]);
+
+    useEffect(() => {
+        axios
+            .get(`http://127.0.0.1:8000/api/questionsSubjectList/?idCS=${idCS}`)
+            .then((res) => {
+                setQuestions(res.data);
+                setLoading(false); // Khi dữ liệu đã được tải, đặt loading thành false
+            })
+            .catch(() => {
+                setLoading(false); // Xử lý lỗi cũng đặt loading thành false
+            });
+    }, [subject, idCS]);
+
+    // console.log(questions.questions);
+    useEffect(() => {
+        let totalTwig = 0;
+        let totalUnderstanding = 0;
+        let totalManipulate = 0;
+        let totalHighlyApplicable = 0;
+        if (questions) {
+            questions.questions.forEach((question) => {
+                if (question.levelOfDifficult === 'Nhận biết') {
+                    totalTwig += 1;
+                }
+                if (question.levelOfDifficult === 'Thông hiểu') {
+                    totalUnderstanding += 1;
+                }
+                if (question.levelOfDifficult === 'Vận dụng') {
+                    totalManipulate += 1;
+                }
+                if (question.levelOfDifficult === 'Vận dụng cao') {
+                    totalHighlyApplicable += 1;
+                }
+            });
+            setPercentTwig(parseInt((totalTwig * 100) / Object.keys(questions.questions).length));
+            setPercentUnderstanding(parseInt((totalUnderstanding * 100) / Object.keys(questions.questions).length));
+            setPercentManipulate(parseInt((totalManipulate * 100) / Object.keys(questions.questions).length));
+            setPercentHighlyApplicable(
+                parseInt((totalHighlyApplicable * 100) / Object.keys(questions.questions).length),
+            );
+        }
+    }, [questions]);
     // Nếu đang tải dữ liệu, hiển thị một phần giao diện loading
     if (loading) {
         return <div>Loading...</div>;
@@ -37,14 +84,15 @@ function Exercise() {
                 )}
                 <div className={cx('row p-3 pb-2')}>
                     <div className={cx('col-4')}>
-                        <div className={cx('label-progress')}>Nhận biết (18%)</div>
+                        <div className={cx('label-progress')}>Nhận biết ({percentTwig}%)</div>
                     </div>
                     <div className={cx('col-8')}>
-                        <div class="progress">
+                        <div className={cx('progress')}>
                             <div
-                                className={cx('w-25 ', 'bg-primary')}
+                                className={cx('progress-bar', 'bg-primary')}
                                 role="progressbar"
-                                aria-valuenow="25"
+                                style={{ width: `${percentTwig}%` }}
+                                aria-valuenow={percentTwig}
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                             ></div>
@@ -54,14 +102,15 @@ function Exercise() {
 
                 <div className={cx('row p-3 pt-1 pb-2')}>
                     <div className={cx('col-4')}>
-                        <div className={cx('label-progress')}>Thông hiểu (18%)</div>
+                        <div className={cx('label-progress')}>Thông hiểu ({percentUnderstanding}%)</div>
                     </div>
                     <div className={cx('col-8')}>
-                        <div class="progress">
+                        <div className={cx('progress')}>
                             <div
-                                className={cx('w-25 ', 'bg-success')}
+                                className={cx('progress-bar', 'bg-success')}
                                 role="progressbar"
-                                aria-valuenow="25"
+                                style={{ width: `${percentUnderstanding}%` }}
+                                aria-valuenow={percentUnderstanding}
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                             ></div>
@@ -71,14 +120,15 @@ function Exercise() {
 
                 <div className={cx('row p-3 pt-1 pb-2')}>
                     <div className={cx('col-4')}>
-                        <div className={cx('label-progress')}>Vận dụng (18%)</div>
+                        <div className={cx('label-progress')}>Vận dụng ({percentManipulate}%)</div>
                     </div>
                     <div className={cx('col-8')}>
-                        <div class="progress">
+                        <div className={cx('progress')}>
                             <div
-                                className={cx('w-50', 'bg-warning')}
+                                className={cx('progress-bar', 'bg-warning')}
                                 role="progressbar"
-                                aria-valuenow="25"
+                                style={{ width: `${percentManipulate}%` }}
+                                aria-valuenow={percentManipulate}
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                             ></div>
@@ -88,14 +138,15 @@ function Exercise() {
 
                 <div className={cx('row p-3 pt-1 pb-2')}>
                     <div className={cx('col-4')}>
-                        <div className={cx('label-progress')}>Vận dụng cao (18%)</div>
+                        <div className={cx('label-progress')}>Vận dụng cao ({percentHighlyApplicable}%)</div>
                     </div>
                     <div className={cx('col-8')}>
-                        <div class="progress">
+                        <div className={cx('progress')}>
                             <div
-                                className={cx('bg-danger', 'w-25 ')}
+                                className={cx('progress-bar', 'bg-danger')}
                                 role="progressbar"
-                                aria-valuenow="25"
+                                style={{ width: `${percentHighlyApplicable}%` }}
+                                aria-valuenow={percentHighlyApplicable}
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                             ></div>

@@ -8,7 +8,9 @@ urlpatterns = [
     path('titleContentList/', TitleContentList.as_view(), name='titleContentList-list'),
     path('contentSubjectOne/', ContentSubjectOne.as_view(), name='contentSubjectOne'),
     path('titleContentAll/', TitleContentAll.as_view(), name='titleContentAll'),
+    path('titleContentAll/delete/<int:id>/', TitleContentAll.as_view(), name='TitleContentAll-delete'),
     path('contentSubjectsAll/', ContentSubjectsAll.as_view(), name='contentSubjectsAll'),
+    path('contentSubjectsAll/delete/<int:id>/', ContentSubjectsAll.as_view(), name='ContentSubjectsAll-delete'),
 
 
 ]

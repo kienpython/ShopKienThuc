@@ -68,6 +68,16 @@
     border: 1px solid #e1e1e1;
 }
 
+.wrap-remember {
+    flex: 2;
+}
+.user-forget {
+    flex: 1;
+}
+input.display-block {
+    width: fit-content;
+}
+
 .user-remember-forget {
     display: flex;
     justify-content: space-between;

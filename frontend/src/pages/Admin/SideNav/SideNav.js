@@ -12,13 +12,26 @@ import {
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import style from './SideNav.module.scss';
 import images from '~/assets/images';
 import { Link } from 'react-router-dom';
+
 const cx = classNames.bind(style);
 function SideNav() {
+    const username = sessionStorage.getItem('taiKhoan');
+    const position = sessionStorage.getItem('position');
+    const [stateTheorys, setStateTheorys] = useState(-1);
+    const [stateAccounts, setStateAccounts] = useState(-1);
+    const [stateTransactions, setStateTransactions] = useState(-1);
+
+    const handleLogout = () => {
+        // Xóa dữ liệu từ key 'taiKhoan' trong sessionStorage
+        sessionStorage.removeItem('taiKhoan');
+        // Xóa dữ liệu từ key 'position' trong sessionStorage
+        sessionStorage.removeItem('position');
+    };
     return (
         <div>
             {' '}
@@ -37,13 +50,18 @@ function SideNav() {
                 {/* Sidebar */}
                 <div className={cx('sidebar', 'wrap-sidebar')}>
                     {/* Sidebar user panel (optional) */}
-                    <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div className="user-panel mt-3 pb-3 mb-3 d-flex justify-content-between align-items-center">
                         <div className="image">
                             <img src={images.icon_ranking} className="img-circle elevation-2" alt="User Image" />
                         </div>
                         <div className="info">
                             <a href="/admin" className="d-block">
-                                Alexander Pierce
+                                {username}
+                            </a>
+                        </div>
+                        <div>
+                            <a className={cx('logout')} href="/" onClick={handleLogout}>
+                                Đăng xuất
                             </a>
                         </div>
                     </div>
@@ -73,22 +91,6 @@ function SideNav() {
                         >
                             {/* Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library */}
-
-                            <li class="nav-item">
-                                <Link to="/admin/courses" class="nav-link active">
-                                    <div className="row">
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faBook} />
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <p>Courses</p>
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faAngleLeft} />
-                                        </div>
-                                    </div>
-                                </Link>
-                            </li>
 
                             <li class="nav-item">
                                 <Link to="/admin/subjects" class="nav-link active">
@@ -152,7 +154,7 @@ function SideNav() {
 
                             {/* Teacher */}
                             <li class={cx('nav-item', 'cursor-pointer')}>
-                                <div class="nav-link active">
+                                <div class="nav-link active" onClick={() => setStateTheorys(-stateTheorys)}>
                                     <div className="row">
                                         <div className="col-4 d-flex justify-content-center align-items-center">
                                             <FontAwesomeIcon icon={faBookOpen} />
@@ -165,34 +167,36 @@ function SideNav() {
                                         </div>
                                     </div>
                                 </div>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <Link to="/admin/titleContents" class="nav-link">
-                                            <div className="row">
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <FontAwesomeIcon icon={faCircle} className="nav-icon" />
-                                                </div>
+                                {stateTheorys && (
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <Link to="/admin/titleContents" class="nav-link">
+                                                <div className="row">
+                                                    <div className="col-4 d-flex justify-content-center align-items-center">
+                                                        <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                    </div>
 
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <p>Titles</p>
+                                                    <div className="col-4 d-flex justify-content-center align-items-center">
+                                                        <p>Titles</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                    <li class="nav-item">
-                                        <Link to="/admin/contentSubjects" class="nav-link">
-                                            <div className="row">
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <FontAwesomeIcon icon={faCircle} className="nav-icon" />
-                                                </div>
+                                            </Link>
+                                        </li>
+                                        <li class="nav-item">
+                                            <Link to="/admin/contentSubjects" class="nav-link">
+                                                <div className="row">
+                                                    <div className="col-4 d-flex justify-content-center align-items-center">
+                                                        <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                    </div>
 
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <p>Contents</p>
+                                                    <div className="col-4 d-flex justify-content-center align-items-center">
+                                                        <p>Contents</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                </ul>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                )}
                             </li>
 
                             <li class="nav-item">
@@ -212,107 +216,136 @@ function SideNav() {
                             </li>
 
                             {/* Admin */}
-                            <li className="nav-item menu-open">
-                                <div className={cx('nav-link', 'active', 'cursor-pointer')}>
-                                    <div className="row">
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faUsers} />
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <p>Accounts</p>
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faAngleLeft} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul className="nav nav-treeview">
-                                    <li className="nav-item">
-                                        <Link to="/admin/students" className="nav-link">
+                            {position && position === 'Admin' && (
+                                <>
+                                    <li class="nav-item">
+                                        <Link to="/admin/courses" class="nav-link active">
                                             <div className="row">
                                                 <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                    <FontAwesomeIcon icon={faBook} />
                                                 </div>
-
                                                 <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <p>Students</p>
+                                                    <p>Courses</p>
+                                                </div>
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <FontAwesomeIcon icon={faAngleLeft} />
                                                 </div>
                                             </div>
                                         </Link>
                                     </li>
-                                    <li className="nav-item">
-                                        <Link to="/admin/teachers" className="nav-link">
+                                    <li className="nav-item menu-open">
+                                        <div
+                                            className={cx('nav-link', 'active', 'cursor-pointer')}
+                                            onClick={() => setStateAccounts(-stateAccounts)}
+                                        >
                                             <div className="row">
                                                 <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                    <FontAwesomeIcon icon={faUsers} />
                                                 </div>
-
                                                 <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <p>Teachers</p>
+                                                    <p>Accounts</p>
+                                                </div>
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <FontAwesomeIcon icon={faAngleLeft} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {stateAccounts && (
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item">
+                                                    <Link to="/admin/students" className="nav-link">
+                                                        <div className="row">
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                            </div>
+
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <p>Students</p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link to="/admin/teachers" className="nav-link">
+                                                        <div className="row">
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                            </div>
+
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <p>Teachers</p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                    <li className={cx('nav-item', 'menu-open', 'cursor-pointer')}>
+                                        <div
+                                            className="nav-link active"
+                                            onClick={() => setStateTransactions(-stateTransactions)}
+                                        >
+                                            <div className="row">
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <FontAwesomeIcon icon={faMoneyCheckDollar} />
+                                                </div>
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <p>Transactions</p>
+                                                </div>
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <FontAwesomeIcon icon={faAngleLeft} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {stateTransactions && (
+                                            <ul className="nav nav-treeview">
+                                                <li className="nav-item">
+                                                    <Link to="/admin/transactionStudents" className="nav-link">
+                                                        <div className="row">
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                            </div>
+
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <p>Students</p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link to="/admin/transactionTeachers" className="nav-link">
+                                                        <div className="row">
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <FontAwesomeIcon icon={faCircle} className="nav-icon" />
+                                                            </div>
+
+                                                            <div className="col-4 d-flex justify-content-center align-items-center">
+                                                                <p>Teachers</p>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                    <li className="nav-item menu-open">
+                                        <Link to="/admin/statistics" className="nav-link active">
+                                            <div className="row">
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <FontAwesomeIcon icon={faChartSimple} />
+                                                </div>
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <p>Statistics</p>
+                                                </div>
+                                                <div className="col-4 d-flex justify-content-center align-items-center">
+                                                    <FontAwesomeIcon icon={faAngleLeft} />
                                                 </div>
                                             </div>
                                         </Link>
                                     </li>
-                                </ul>
-                            </li>
-                            <li className={cx('nav-item', 'menu-open', 'cursor-pointer')}>
-                                <div className="nav-link active">
-                                    <div className="row">
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faMoneyCheckDollar} />
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <p>Transactions</p>
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faAngleLeft} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul className="nav nav-treeview">
-                                    <li className="nav-item">
-                                        <Link to="/admin/transactionStudents" className="nav-link">
-                                            <div className="row">
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <FontAwesomeIcon icon={faCircle} className="nav-icon" />
-                                                </div>
-
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <p>Students</p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to="/admin/transactionTeachers" className="nav-link">
-                                            <div className="row">
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <FontAwesomeIcon icon={faCircle} className="nav-icon" />
-                                                </div>
-
-                                                <div className="col-4 d-flex justify-content-center align-items-center">
-                                                    <p>Teachers</p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item menu-open">
-                                <Link to="/admin/statistics" className="nav-link active">
-                                    <div className="row">
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faChartSimple} />
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <p>Statistics</p>
-                                        </div>
-                                        <div className="col-4 d-flex justify-content-center align-items-center">
-                                            <FontAwesomeIcon icon={faAngleLeft} />
-                                        </div>
-                                    </div>
-                                </Link>
-                            </li>
+                                </>
+                            )}
                         </ul>
                     </nav>
                     {/* /.sidebar-menu */}

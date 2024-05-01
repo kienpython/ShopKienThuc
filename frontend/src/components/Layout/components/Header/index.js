@@ -21,6 +21,10 @@ function Header() {
 
     const handleLogout = () => {
         setUser('');
+        // Xóa dữ liệu từ key 'taiKhoan' trong sessionStorage
+        sessionStorage.removeItem('taiKhoan');
+        // Xóa dữ liệu từ key 'position' trong sessionStorage
+        sessionStorage.removeItem('position');
     };
 
     useEffect(() => {

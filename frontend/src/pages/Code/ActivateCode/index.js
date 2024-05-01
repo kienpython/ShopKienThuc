@@ -5,12 +5,19 @@ import { useEffect, useState } from 'react';
 import style from './Code.module.scss';
 import images from '~/assets/images';
 import axios from 'axios';
+import { AuthContext } from '~/context/authcontext';
+import { useContext } from 'react';
 
 const cx = classNames.bind(style);
 
 function Code() {
+    const { user } = useContext(AuthContext);
     const [stateOptionCode, setStateOptionCode] = useState(false);
     const [code, setCode] = useState('');
+    const [statisticStudents, setStatisticStudents] = useState('');
+    const [inputValue, setInputValue] = useState('');
+    const [idTransactionHistory, setIdTransactionHistory] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         axios
@@ -20,6 +27,44 @@ function Code() {
             })
             .catch(() => {});
     }, []);
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:8000/api/statisticStudents/')
+            .then((res) => {
+                setStatisticStudents(res.data);
+            })
+            .catch(() => {});
+    }, []);
+
+    const sendIdTransactionHistory = async () => {
+        try {
+            const data = { username: user.accountName, idTransactionHistory: idTransactionHistory };
+            await axios.put('http://127.0.0.1:8000/api/studentsAccount/', data);
+        } catch (error) {
+            console.error('Error sending data to Django:', error);
+        }
+    };
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleActive = (idCode) => {
+        let state = 0;
+        statisticStudents.forEach((statisticStudent) => {
+            if (statisticStudent.idTransactionHistory === parseInt(idCode)) {
+                setIdTransactionHistory(idCode);
+                sendIdTransactionHistory();
+                state = 1;
+            }
+        });
+        if (state) {
+            setMessage('Kích hoạt tài khoản thành công!');
+        } else {
+            setMessage('Mã kích hoạt chưa chính xác!');
+        }
+    };
     return (
         <div>
             <div className={cx('container')}>
@@ -39,13 +84,18 @@ function Code() {
                         <input
                             type="text"
                             name="content-code"
+                            value={inputValue}
                             id="content-code"
+                            onChange={handleInputChange}
                             placeholder="Nhập mã kích hoạt của bạn tại đây!"
                         />
+                        <span className="text-center text-danger">{message}</span>
                         <span>
-                            Mã kích hoạt là gì? <a href="#">Xem tại đây</a>
+                            Mã kích hoạt là gì? <a href="/">Xem tại đây</a>
                         </span>
-                        <button className={cx('btn-enter')}>Kích hoạt mã</button>
+                        <button className={cx('btn-enter')} onClick={() => handleActive(inputValue)}>
+                            Kích hoạt mã
+                        </button>
                         <button className={cx('btn-register')} onClick={() => setStateOptionCode(true)}>
                             Mua mã mới
                         </button>

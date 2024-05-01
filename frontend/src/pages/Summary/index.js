@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import style from './Summary.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(style);
 
 function Summary() {
-    const { point, time, totalQuestions } = useParams();
+    const { point, time, totalQuestions, subject, course } = useParams();
     return (
         <div className="container d-flex justify-content-center">
             <div className={cx('background-point')}>
@@ -35,10 +35,14 @@ function Summary() {
                     <div className="d-flex justify-content-between">
                         <div className={cx('wrap-button', 'bg-warning')}>
                             <FontAwesomeIcon icon={faAnglesLeft} className={cx('icon-next-question', 'pr-2')} />
-                            <span>Quay lại</span>
+                            <span>
+                                <Link to="/">Quay lại</Link>
+                            </span>
                         </div>
                         <div className={cx('wrap-button')}>
-                            <span>Làm tiếp</span>
+                            <span>
+                                <Link to={`/courses/${course}/${subject}/TracNghiem`}>Làm tiếp</Link>
+                            </span>
                             <FontAwesomeIcon icon={faAnglesRight} className={cx('icon-next-question', 'pl-2')} />
                         </div>
                     </div>

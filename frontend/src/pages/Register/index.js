@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaCircleXmark } from 'react-icons/fa6';
 import style from './Register.module.scss';
 const cx = classNames.bind(style);
@@ -93,7 +93,7 @@ function Login() {
                     />
                     <div className={cx('user-remember-forget')}>
                         <div>
-                            <input type="checkbox" name="remember" id="remember" />
+                            <input className={cx('display-block')} type="checkbox" name="remember" id="remember" />
                             <label htmlFor="remember">Nhớ mật khẩu</label>
                         </div>
                         <div className={cx('user-forget')}>
@@ -116,8 +116,8 @@ function Login() {
                 </div>
                 <div className={cx('text-center', 'container-hotline')}>
                     <div>
-                        <span>Chưa có tài khoản?</span>
-                        <a href="/">Đăng ký</a>
+                        <span>Đã có tài khoản?</span>
+                        <Link to="/login">Đăng nhập</Link>
                     </div>
                     <div>
                         <span>Hotline hỗ trợ: </span>
